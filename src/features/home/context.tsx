@@ -48,6 +48,7 @@ export default function DataFlowProvider({ children }: { children: React.ReactNo
     },
     [dataSourceMap],
   )
+
   const getDataSource = useCallback(
     (id: string) => {
       let dataSource = dataSourceMap.get(id)
@@ -59,6 +60,7 @@ export default function DataFlowProvider({ children }: { children: React.ReactNo
     },
     [dataSourceMap],
   )
+
   const subscribe = useCallback(
     (sourceId: string, targetId: string, fn: (data: any) => void) => {
       const dataSource = getDataSource(sourceId)
@@ -66,6 +68,7 @@ export default function DataFlowProvider({ children }: { children: React.ReactNo
     },
     [getDataSource],
   )
+
   const unsubscribe = useCallback(
     (sourceId: string, targetId: string) => {
       const dataSource = dataSourceMap.get(sourceId)

@@ -21,8 +21,11 @@ import { getNodeTypes } from "./nodes"
 const nodeTypes = getNodeTypes()
 
 const initialNodes = [
-  { id: "1", type: "area", position: { x: 0, y: 0 }, data: { length: 0, width: 0, result: 0 } },
-  { id: "2", type: "result", position: { x: 300, y: 200 }, data: { input: 0 } },
+  { id: "1", type: "number", position: { x: 0, y: 0 } },
+  { id: "2", type: "number", position: { x: 0, y: 150 } },
+  { id: "3", type: "multiple", position: { x: 300, y: 0 }, data: { length: 0, width: 0, result: 0 } },
+  { id: "4", type: "add", position: { x: 300, y: 200 }, data: { length: 0, width: 0, result: 0 } },
+  { id: "5", type: "result", position: { x: 600, y: 100 }, data: { input: null } },
 ]
 
 export default function FlowGraph() {
@@ -94,7 +97,7 @@ export default function FlowGraph() {
       </Panel>
       <MiniMap />
       <Controls />
-      <Background variant={BackgroundVariant.Cross} />
+      <Background variant={BackgroundVariant.Dots} />
     </ReactFlow>
   )
 }

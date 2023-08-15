@@ -6,13 +6,13 @@ import FlowGraph from "@/features/home/flow-graph"
 import DataFlowProvider from "@/features/home/context"
 
 export default function HomeView() {
-  const { isOpen, toggleOff, toggleOn } = useSidebarStore()
+  const { isOpen, toggleOff } = useSidebarStore()
 
   return (
     <div className="h-screen w-screen flex flex-col">
       <Navbar isBordered>
         <NavbarBrand>
-          <p className="font-bold">流程设计器</p>
+          <p className="font-bold">流程设计</p>
         </NavbarBrand>
         <NavbarContent justify="end">
           <NavbarItem className="space-x-3">
