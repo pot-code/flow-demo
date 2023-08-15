@@ -3,7 +3,7 @@ import { Crown, FloppyDisk, X } from "@phosphor-icons/react"
 import { motion } from "framer-motion"
 import useSidebarStore from "@/features/home/use-sidebar-store"
 import FlowGraph from "@/features/home/flow-graph"
-import SubscriptionProvider from "@/features/home/context"
+import DataFlowProvider from "@/features/home/context"
 
 export default function HomeView() {
   const { isOpen, toggleOff, toggleOn } = useSidebarStore()
@@ -26,9 +26,9 @@ export default function HomeView() {
         </NavbarContent>
       </Navbar>
       <div className="flex-grow flex">
-        <SubscriptionProvider>
+        <DataFlowProvider>
           <FlowGraph />
-        </SubscriptionProvider>
+        </DataFlowProvider>
         <motion.div className="h-full overflow-x-hidden" animate={{ width: isOpen ? "480px" : "0px" }}>
           <div className="p-3">
             <Button isIconOnly color="default" variant="light" onClick={toggleOff}>

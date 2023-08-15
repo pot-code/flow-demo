@@ -1,32 +1,27 @@
 import { Card, CardBody, CardHeader, Divider, Input } from "@nextui-org/react"
 import { useForm } from "react-hook-form"
-import { Connection, Handle, NodeProps, Position, useReactFlow } from "reactflow"
+import { Handle, NodeProps, Position } from "reactflow"
+import { useDataFlowContext } from "../context"
 
-export default memo<NodeProps>(({ isConnectable }) => {
-  const instance = useReactFlow()
-  const { register, getValues } = useForm({
+export default memo<NodeProps>(({ id, isConnectable }) => {
+  const { getDataSource } = useDataFlowContext()
+  const dataSource = useMemo(() => getDataSource(id), [getDataSource, id])
+  const { register, getValues, watch } = useForm({
     defaultValues: {
       width: 0,
       length: 0,
     },
   })
+  const [length, width] = watch(["length", "width"])
 
-  const onConnect = useCallback(
-    (c: Connection) => {
-      console.log("🚀 ~ file: area.tsx:16 ~ params:", c)
-      const [width, length] = getValues(["width", "length"])
-      const result = width * length
-      instance.setNodes((nds) => {
-        return nds.map((node) => {
-          if (node.id === c.target) {
-            return { ...node, data: { ...node.data, [c.targetHandle as string]: result } }
-          }
-          return node
-        })
-      })
-    },
-    [getValues, instance],
-  )
+  const onConnect = useCallback(() => {
+    const [w, l] = getValues(["width", "length"])
+    dataSource?.publish(w * l)
+  }, [dataSource, getValues])
+
+  useEffect(() => {
+    dataSource?.publish(length * width)
+  }, [dataSource, length, width])
 
   return (
     <>

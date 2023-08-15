@@ -1,22 +1,22 @@
 import { Button } from "@nextui-org/react"
 import { Plus } from "@phosphor-icons/react"
 import ReactFlow, {
-  MarkerType,
-  Panel,
-  MiniMap,
-  Controls,
   Background,
   BackgroundVariant,
   Connection,
+  Controls,
   Edge,
   EdgeChange,
+  MarkerType,
+  MiniMap,
   NodeChange,
+  Panel,
   addEdge,
   applyEdgeChanges,
   applyNodeChanges,
 } from "reactflow"
+import { useDataFlowContext } from "./context"
 import { getNodeTypes } from "./nodes"
-import { useSubscription } from "./context"
 
 const nodeTypes = getNodeTypes()
 
@@ -26,13 +26,47 @@ const initialNodes = [
 ]
 
 export default function FlowGraph() {
-  const { getDataSource, removeDataSource } = useSubscription()
+  const { subscribe, unsubscribe, removeDataSource } = useDataFlowContext()
   const [nodes, setNodes] = useState<any[]>(initialNodes)
   const [edges, setEdges] = useState<any[]>([])
 
-  const onNodesChange = useCallback((changes: NodeChange[]) => setNodes((nds) => applyNodeChanges(changes, nds)), [])
+  const onNodesChange = useCallback(
+    (changes: NodeChange[]) => {
+      changes.forEach((change) => {
+        if (change.type === "remove") {
+          removeDataSource(change.id)
+        }
+      })
+      setNodes((nds) => applyNodeChanges(changes, nds))
+    },
+    [removeDataSource],
+  )
   const onEdgesChange = useCallback((changes: EdgeChange[]) => setEdges((eds) => applyEdgeChanges(changes, eds)), [])
-  const onConnect = useCallback((params: Edge | Connection) => setEdges((eds) => addEdge(params, eds)), [setEdges])
+  const onConnect = useCallback(
+    (params: Edge | Connection) => {
+      const { source, target, targetHandle } = params
+      subscribe(source as string, target as string, (data) => {
+        setNodes((nds) => {
+          return nds.map((node) => {
+            if (node.id === target) {
+              return { ...node, data: { ...node.data, [targetHandle as string]: data } }
+            }
+            return node
+          })
+        })
+      })
+      setEdges((eds) => addEdge(params, eds))
+    },
+    [subscribe],
+  )
+  const onEdgesDelete = useCallback(
+    (eds: Edge[]) => {
+      eds.forEach((edge) => {
+        unsubscribe(edge.source, edge.target)
+      })
+    },
+    [unsubscribe],
+  )
 
   return (
     <ReactFlow
@@ -44,6 +78,7 @@ export default function FlowGraph() {
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
       onConnect={onConnect}
+      onEdgesDelete={onEdgesDelete}
       defaultEdgeOptions={{
         markerEnd: {
           type: MarkerType.ArrowClosed,
