@@ -7,7 +7,7 @@ import App from "./app"
 import "./i18n"
 import { setup } from "./setup"
 
-import "./styles/main.scss"
+import "./styles/main.css"
 import "reactflow/dist/style.css"
 
 const queryClient = new QueryClient({
