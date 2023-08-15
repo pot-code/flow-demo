@@ -28,7 +28,14 @@ export default memo<NodeProps>(({ id, isConnectable }) => {
         <CardHeader>Number</CardHeader>
         <Divider />
         <CardBody>
-          <Input className="nodrag" size="sm" type="number" placeholder="请输入数字" {...register("value")} />
+          <Input
+            className="nodrag"
+            size="sm"
+            type="number"
+            variant="bordered"
+            placeholder="请输入数字"
+            {...register("value")}
+          />
         </CardBody>
       </Card>
       <Handle id="value" type="source" position={Position.Right} isConnectable={isConnectable} onConnect={onConnect} />

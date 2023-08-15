@@ -24,8 +24,8 @@ export default memo<NodeProps>(({ id, isConnectable, data }) => {
         <CardHeader>Multiple</CardHeader>
         <Divider />
         <CardBody className="gap-3">
-          <Chip color="primary">operand: {data.op1}</Chip>
-          <Chip color="primary">operand: {data.op2}</Chip>
+          <Chip variant="flat">operand: {data.op1}</Chip>
+          <Chip variant="flat">operand: {data.op2}</Chip>
         </CardBody>
       </Card>
       <Handle
