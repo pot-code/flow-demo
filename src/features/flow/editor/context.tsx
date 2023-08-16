@@ -26,10 +26,7 @@ class DataSource {
 
   unsubscribe(id: string) {
     const index = this.subscriptions.findIndex((sub) => sub.id === id)
-    if (index > -1) {
-      this.subscriptions[index].stub.unsubscribe()
-      this.subscriptions.splice(index, 1)
-    }
+    if (index > -1) this.subscriptions.splice(index, 1)[0].stub.unsubscribe()
   }
 
   dispose() {
