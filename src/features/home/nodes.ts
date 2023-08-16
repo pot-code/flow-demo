@@ -11,3 +11,7 @@ export function getNodeTypes() {
     }),
   )
 }
+
+export function newNodeId() {
+  return Date.now().toString()
+}

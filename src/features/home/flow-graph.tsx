@@ -1,74 +1,20 @@
-import { Button } from "@nextui-org/react"
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react"
 import { Plus } from "@phosphor-icons/react"
-import ReactFlow, {
-  Background,
-  BackgroundVariant,
-  Connection,
-  Controls,
-  Edge,
-  EdgeChange,
-  MarkerType,
-  MiniMap,
-  NodeChange,
-  Panel,
-  addEdge,
-  applyEdgeChanges,
-  applyNodeChanges,
-} from "reactflow"
-import { useDataFlowContext } from "./context"
+import ReactFlow, { Background, BackgroundVariant, Controls, Edge, MarkerType, MiniMap, Node, Panel } from "reactflow"
 import { getNodeTypes } from "./nodes"
+import useFlowGraph from "./use-flow-graph"
 
 const nodeTypes = getNodeTypes()
 
-const initialNodes = [
-  { id: "1", type: "number", position: { x: 0, y: 0 } },
-  { id: "2", type: "number", position: { x: 0, y: 150 } },
-  { id: "3", type: "multiple", position: { x: 300, y: 0 }, data: { length: 0, width: 0, result: 0 } },
-  { id: "4", type: "add", position: { x: 300, y: 200 }, data: { length: 0, width: 0, result: 0 } },
-  { id: "5", type: "result", position: { x: 600, y: 100 }, data: { input: undefined } },
-]
+interface FlowGraphProps {
+  initialNodes?: Node[]
+  initialEdges?: Edge[]
+}
 
-export default function FlowGraph() {
-  const { subscribe, unsubscribe, removeDataSource } = useDataFlowContext()
-  const [nodes, setNodes] = useState<any[]>(initialNodes)
-  const [edges, setEdges] = useState<any[]>([])
-
-  const onNodesChange = useCallback(
-    (changes: NodeChange[]) => {
-      changes.forEach((change) => {
-        if (change.type === "remove") {
-          removeDataSource(change.id)
-        }
-      })
-      setNodes((nds) => applyNodeChanges(changes, nds))
-    },
-    [removeDataSource],
-  )
-  const onEdgesChange = useCallback((changes: EdgeChange[]) => setEdges((eds) => applyEdgeChanges(changes, eds)), [])
-  const onConnect = useCallback(
-    (params: Edge | Connection) => {
-      const { source, target, targetHandle } = params
-      subscribe(source as string, target as string, (data) => {
-        setNodes((nds) => {
-          return nds.map((node) => {
-            if (node.id === target) {
-              return { ...node, data: { ...node.data, [targetHandle as string]: data } }
-            }
-            return node
-          })
-        })
-      })
-      setEdges((eds) => addEdge(params, eds))
-    },
-    [subscribe],
-  )
-  const onEdgesDelete = useCallback(
-    (eds: Edge[]) => {
-      eds.forEach((edge) => {
-        unsubscribe(edge.source, edge.target)
-      })
-    },
-    [unsubscribe],
+export default function FlowGraph({ initialNodes = [], initialEdges = [] }: FlowGraphProps) {
+  const { nodes, edges, onNodesChange, onEdgesChange, onConnect, onEdgesDelete, onAddNode } = useFlowGraph(
+    initialNodes,
+    initialEdges,
   )
 
   return (
@@ -90,9 +36,19 @@ export default function FlowGraph() {
     >
       <Panel position="top-left">
         <div className="flex flex-col gap-3">
-          <Button isIconOnly color="primary" variant="shadow">
-            <Plus />
-          </Button>
+          <Dropdown>
+            <DropdownTrigger>
+              <Button isIconOnly color="primary" variant="shadow">
+                <Plus />
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu onAction={onAddNode}>
+              <DropdownItem key="number">Number</DropdownItem>
+              <DropdownItem key="add">Addition</DropdownItem>
+              <DropdownItem key="multiple">Multiply</DropdownItem>
+              <DropdownItem key="result">Result</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
         </div>
       </Panel>
       <MiniMap />
