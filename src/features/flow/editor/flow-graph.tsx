@@ -1,6 +1,16 @@
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react"
 import { Plus } from "@phosphor-icons/react"
-import ReactFlow, { Background, BackgroundVariant, Controls, Edge, MarkerType, MiniMap, Node, Panel } from "reactflow"
+import ReactFlow, {
+  Background,
+  BackgroundVariant,
+  Controls,
+  Edge,
+  MarkerType,
+  MiniMap,
+  Node,
+  Panel,
+  useViewport,
+} from "reactflow"
 import { getNodeTypes } from "../nodes"
 import useFlowGraph from "./use-flow-graph"
 
@@ -21,6 +31,7 @@ export default forwardRef<FlowGraphRef, FlowGraphProps>(({ initialNodes = [], in
     initialNodes,
     initialEdges,
   )
+  // const { x, y } = useViewport()
 
   useImperativeHandle(ref, () => ({
     getNodes() {
@@ -49,25 +60,24 @@ export default forwardRef<FlowGraphRef, FlowGraphProps>(({ initialNodes = [], in
       }}
     >
       <Panel position="top-left">
-        <div className="flex flex-col gap-3">
-          <Dropdown>
-            <DropdownTrigger>
-              <Button isIconOnly color="primary" variant="shadow">
-                <Plus />
-              </Button>
-            </DropdownTrigger>
-            <DropdownMenu onAction={onAddNode}>
-              <DropdownItem key="number">Number</DropdownItem>
-              <DropdownItem key="add">Addition</DropdownItem>
-              <DropdownItem key="multiple">Multiply</DropdownItem>
-              <DropdownItem key="result">Result</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-        </div>
+        <Dropdown>
+          <DropdownTrigger>
+            <Button isIconOnly color="primary" variant="shadow">
+              <Plus />
+            </Button>
+          </DropdownTrigger>
+          <DropdownMenu onAction={onAddNode}>
+            <DropdownItem key="number">Number</DropdownItem>
+            <DropdownItem key="add">Addition</DropdownItem>
+            <DropdownItem key="multiple">Multiply</DropdownItem>
+            <DropdownItem key="result">Result</DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
       </Panel>
       <MiniMap />
       <Controls />
       <Background variant={BackgroundVariant.Dots} />
+      {/* <div className="absolute rounded-full bg-red-500 w-2 h-2" style={{ left: `${x - 10}px`, top: `${y - 10}px` }} /> */}
     </ReactFlow>
   )
 })

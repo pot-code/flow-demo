@@ -26,7 +26,7 @@ export default function useFlowGraph(initialNodes: Node[], initialEdges: Edge[])
     const node: Node = {
       type,
       id: newNodeId(),
-      position: { x, y },
+      position: { x: -x + 80, y: -y + 80 },
       data: {},
     }
     setNodes(

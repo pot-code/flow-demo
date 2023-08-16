@@ -21,11 +21,5 @@ export default function useEditor() {
     setIsLoading(save.isLoading)
   }, [save.isLoading])
 
-  useEffect(() => {
-    if (save.isSuccess) {
-      setIsLoading(false)
-    }
-  }, [save.isSuccess])
-
   return { isLoading, graphRef, saveGraph }
 }
