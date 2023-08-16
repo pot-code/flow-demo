@@ -11,7 +11,7 @@ import {
 } from "reactflow"
 import { produce } from "immer"
 import { useDataFlowContext } from "./context"
-import { newNodeId } from "./nodes"
+import { newNodeId } from "../nodes"
 
 type NodeType = "number" | "multiple" | "result" | "add"
 

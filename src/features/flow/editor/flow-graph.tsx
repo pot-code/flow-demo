@@ -1,21 +1,35 @@
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react"
 import { Plus } from "@phosphor-icons/react"
 import ReactFlow, { Background, BackgroundVariant, Controls, Edge, MarkerType, MiniMap, Node, Panel } from "reactflow"
-import { getNodeTypes } from "./nodes"
+import { getNodeTypes } from "../nodes"
 import useFlowGraph from "./use-flow-graph"
 
 const nodeTypes = getNodeTypes()
+
+export interface FlowGraphRef {
+  getNodes(): Node[]
+  getEdges(): Edge[]
+}
 
 interface FlowGraphProps {
   initialNodes?: Node[]
   initialEdges?: Edge[]
 }
 
-export default function FlowGraph({ initialNodes = [], initialEdges = [] }: FlowGraphProps) {
+export default forwardRef<FlowGraphRef, FlowGraphProps>(({ initialNodes = [], initialEdges = [] }, ref) => {
   const { nodes, edges, onNodesChange, onEdgesChange, onConnect, onEdgesDelete, onAddNode } = useFlowGraph(
     initialNodes,
     initialEdges,
   )
+
+  useImperativeHandle(ref, () => ({
+    getNodes() {
+      return nodes
+    },
+    getEdges() {
+      return edges
+    },
+  }))
 
   return (
     <ReactFlow
@@ -56,4 +70,4 @@ export default function FlowGraph({ initialNodes = [], initialEdges = [] }: Flow
       <Background variant={BackgroundVariant.Dots} />
     </ReactFlow>
   )
-}
+})

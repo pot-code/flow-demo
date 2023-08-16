@@ -1,7 +1,7 @@
 import { Card, CardBody, CardHeader, Divider, Input } from "@nextui-org/react"
 import { useForm } from "react-hook-form"
 import { Handle, NodeProps, Position } from "reactflow"
-import { useDataFlowContext } from "../context"
+import { useDataFlowContext } from "../editor/context"
 
 export default memo<NodeProps>(({ id, isConnectable }) => {
   const { getDataSource } = useDataFlowContext()

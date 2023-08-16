@@ -1,10 +1,10 @@
 import React from "react"
 import { RouteObject } from "react-router-dom"
-import HomeView from "../views/home"
+import FlowEditor from "../views/flow/editor"
 
 export const routes: RouteObject[] = [
   {
     path: "/",
-    element: React.createElement(HomeView),
+    element: React.createElement(FlowEditor),
   },
 ]

@@ -2,9 +2,9 @@ import { Button, Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@nextui-
 import { Crown, FloppyDisk, X } from "@phosphor-icons/react"
 import { motion } from "framer-motion"
 import { Edge, Node, ReactFlowProvider } from "reactflow"
-import useSidebarStore from "@/features/home/use-sidebar-store"
-import FlowGraph from "@/features/home/flow-graph"
-import DataFlowProvider from "@/features/home/context"
+import useSidebarStore from "@/features/flow/editor/use-sidebar-store"
+import FlowGraph from "@/features/flow/editor/flow-graph"
+import DataFlowProvider from "@/features/flow/editor/context"
 
 const initialNodes: Node[] = [
   { id: "1", type: "number", position: { x: 0, y: 0 }, data: {} },
