@@ -1,11 +1,11 @@
 import { useMutation } from "@tanstack/react-query"
 import { FlowGraphRef } from "./flow-graph"
-import { editorApi } from "@/api/flow"
+import { graphApi } from "@/api/flow"
 
 export default function useEditor() {
   const [isLoading, setIsLoading] = useState(false)
   const graphRef = useRef<FlowGraphRef>(null)
-  const save = useMutation(editorApi.save)
+  const save = useMutation(graphApi.save)
 
   function saveGraph() {
     const nodes = graphRef.current?.getNodes()

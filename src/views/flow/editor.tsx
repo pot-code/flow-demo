@@ -1,4 +1,16 @@
-import { Button, Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@nextui-org/react"
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  Spinner,
+} from "@nextui-org/react"
 import { Crown, FloppyDisk, X } from "@phosphor-icons/react"
 import { motion } from "framer-motion"
 import { Edge, Node, ReactFlowProvider } from "reactflow"
@@ -38,7 +50,7 @@ const initialEdges: Edge[] = [
   },
 ]
 
-export default function HomeView() {
+export default function Editor() {
   const { isLoading, graphRef, saveGraph } = useEditor()
 
   const { isOpen, toggleOff } = useSidebarStore()
@@ -54,7 +66,7 @@ export default function HomeView() {
             <Button color="warning" variant="ghost" startContent={<Crown />}>
               升级
             </Button>
-            <Button color="primary" variant="flat" startContent={<FloppyDisk />} onClick={getNodes}>
+            <Button color="primary" variant="flat" startContent={<FloppyDisk />} onClick={saveGraph}>
               保存
             </Button>
           </NavbarItem>
@@ -74,6 +86,15 @@ export default function HomeView() {
           </div>
         </motion.div>
       </div>
+      <Modal isOpen={isLoading} hideCloseButton size="xs">
+        <ModalContent>
+          <ModalHeader>保存中</ModalHeader>
+          <ModalBody>
+            <Spinner />
+          </ModalBody>
+          <ModalFooter className="justify-center text-sm text-gray-500">请耐心等待</ModalFooter>
+        </ModalContent>
+      </Modal>
     </div>
   )
 }

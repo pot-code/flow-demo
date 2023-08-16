@@ -1,9 +1,9 @@
 import { Edge, Node } from "reactflow"
 import http from "@/core/http"
 
-export const editorApi = {
+export const graphApi = {
   save(data: SaveFlowGraphData) {
-    return http.post("/flow", data)
+    return http.post("/flow/graph", data)
   },
 }
 
