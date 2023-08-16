@@ -1,16 +1,6 @@
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react"
 import { Plus } from "@phosphor-icons/react"
-import ReactFlow, {
-  Background,
-  BackgroundVariant,
-  Controls,
-  Edge,
-  MarkerType,
-  MiniMap,
-  Node,
-  Panel,
-  useViewport,
-} from "reactflow"
+import ReactFlow, { Background, BackgroundVariant, Controls, Edge, MarkerType, MiniMap, Node, Panel } from "reactflow"
 import { getNodeTypes } from "../nodes"
 import useFlowGraph from "./use-flow-graph"
 
