@@ -6,7 +6,7 @@ import useHandle from "../use-handle"
 
 export default memo<NodeProps>(({ id, isConnectable, data }) => {
   const { getDataSource } = useDataFlowContext()
-  const { limitConnectable } = useHandle(id)
+  const { limitConnection, isConnected } = useHandle(id)
   const dataSource = useMemo(() => getDataSource(id), [getDataSource, id])
 
   const effect = useCallback((d: typeof data) => {
@@ -28,8 +28,12 @@ export default memo<NodeProps>(({ id, isConnectable, data }) => {
         <CardHeader>Add</CardHeader>
         <Divider />
         <CardBody className="gap-3">
-          <Chip variant="flat">operand: {data.op1}</Chip>
-          <Chip variant="flat">operand: {data.op2}</Chip>
+          <Chip color={isConnected("op1") ? "success" : "default"} variant="flat">
+            operand: {data.op1}
+          </Chip>
+          <Chip color={isConnected("op2") ? "success" : "default"} variant="flat">
+            operand: {data.op2}
+          </Chip>
         </CardBody>
       </Card>
       <Handle
@@ -37,14 +41,14 @@ export default memo<NodeProps>(({ id, isConnectable, data }) => {
         type="target"
         position={Position.Left}
         style={{ top: "auto", bottom: 65 }}
-        isConnectable={limitConnectable("op1", 1)}
+        isConnectable={limitConnection("op1", 1)}
       />
       <Handle
         id="op2"
         type="target"
         position={Position.Left}
         style={{ top: "auto", bottom: 25 }}
-        isConnectable={limitConnectable("op2", 1)}
+        isConnectable={limitConnection("op2", 1)}
       />
       <Handle type="source" position={Position.Right} isConnectable={isConnectable} onConnect={onConnect} />
     </>

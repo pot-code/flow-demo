@@ -4,7 +4,7 @@ export default function useHandle(id: string) {
   const nodeInternals = useStore((state) => state.nodeInternals)
   const edges = useStore((state) => state.edges)
 
-  const limitConnectable = useCallback(
+  const limitConnection = useCallback(
     (handleId: string, count: number) => {
       const node = nodeInternals.get(id)
       if (node) {
@@ -19,7 +19,20 @@ export default function useHandle(id: string) {
     [edges, id, nodeInternals],
   )
 
+  const isConnected = useCallback(
+    (handleId: string) => {
+      const node = nodeInternals.get(id)
+      if (node) {
+        const connectedEdges = getConnectedEdges([node], edges)
+        return connectedEdges.some((e) => e.targetHandle === handleId)
+      }
+      return false
+    },
+    [edges, id, nodeInternals],
+  )
+
   return {
-    limitConnectable,
+    isConnected,
+    limitConnection,
   }
 }
