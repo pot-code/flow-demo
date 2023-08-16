@@ -29,10 +29,10 @@ export default memo<NodeProps>(({ id, isConnectable, data }) => {
         <Divider />
         <CardBody className="gap-3">
           <Chip color={isConnected("op1") ? "success" : "default"} variant="flat">
-            operand: {data.op1}
+            Input: {data.op1}
           </Chip>
           <Chip color={isConnected("op2") ? "success" : "default"} variant="flat">
-            operand: {data.op2}
+            Input: {data.op2}
           </Chip>
         </CardBody>
       </Card>
