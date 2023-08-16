@@ -5,7 +5,7 @@ interface DataFlowContextProps {
   getDataSource: (id: string) => DataSource
   removeDataSource: (id: string) => void
   subscribe: (sourceId: string, targetId: string, fn: (data: any) => void) => void
-  unsubscribe: (dataId: string, subId: string) => void
+  unsubscribe: (sourceId: string, targetId: string) => void
 }
 
 const DataFlowContext = React.createContext<DataFlowContextProps | null>(null)

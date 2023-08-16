@@ -5,6 +5,7 @@ import { Edge, Node, ReactFlowProvider } from "reactflow"
 import useSidebarStore from "@/features/flow/editor/use-sidebar-store"
 import FlowGraph from "@/features/flow/editor/flow-graph"
 import DataFlowProvider from "@/features/flow/editor/context"
+import useEditor from "@/features/flow/editor/use-editor"
 
 const initialNodes: Node[] = [
   { id: "1", type: "number", position: { x: 0, y: 0 }, data: {} },
@@ -38,6 +39,8 @@ const initialEdges: Edge[] = [
 ]
 
 export default function HomeView() {
+  const { isLoading, graphRef, saveGraph } = useEditor()
+
   const { isOpen, toggleOff } = useSidebarStore()
 
   return (
@@ -51,7 +54,7 @@ export default function HomeView() {
             <Button color="warning" variant="ghost" startContent={<Crown />}>
               升级
             </Button>
-            <Button color="primary" variant="flat" startContent={<FloppyDisk />}>
+            <Button color="primary" variant="flat" startContent={<FloppyDisk />} onClick={getNodes}>
               保存
             </Button>
           </NavbarItem>
@@ -60,7 +63,7 @@ export default function HomeView() {
       <div className="flex-grow flex">
         <DataFlowProvider>
           <ReactFlowProvider>
-            <FlowGraph initialNodes={initialNodes} initialEdges={initialEdges} />
+            <FlowGraph ref={graphRef} initialNodes={initialNodes} initialEdges={initialEdges} />
           </ReactFlowProvider>
         </DataFlowProvider>
         <motion.div className="h-full overflow-x-hidden" animate={{ width: isOpen ? "480px" : "0px" }}>
