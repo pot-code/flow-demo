@@ -50,7 +50,7 @@ export default memo<NodeProps>(({ id, isConnectable, data }) => {
         style={{ top: "auto", bottom: 25 }}
         isConnectable={limitConnection("op2", 1)}
       />
-      <Handle type="source" position={Position.Right} isConnectable={isConnectable} onConnect={onConnect} />
+      <Handle id="value" type="source" position={Position.Right} isConnectable={isConnectable} onConnect={onConnect} />
     </>
   )
 })

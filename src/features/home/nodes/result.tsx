@@ -13,14 +13,14 @@ export default memo<NodeProps>(({ id, data }) => {
           <Input
             isReadOnly
             className="nodrag"
-            color={isConnected("input") ? "success" : "default"}
+            color={isConnected("value") ? "success" : "default"}
             size="sm"
             type="number"
-            value={data.input}
+            value={data.value}
           />
         </CardBody>
       </Card>
-      <Handle id="input" type="target" position={Position.Left} isConnectable={limitConnection("input", 1)} />
+      <Handle id="value" type="target" position={Position.Left} isConnectable={limitConnection("value", 1)} />
     </>
   )
 })
