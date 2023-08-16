@@ -20,6 +20,7 @@ class DataSource {
   }
 
   subscribe(id: string, fn: (data: any) => void) {
+    if (this.subscriptions.some((sub) => sub.id === id)) return
     this.subscriptions.push({ id, stub: this.sub.subscribe(fn) })
   }
 

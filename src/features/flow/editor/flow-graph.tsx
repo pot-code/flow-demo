@@ -17,10 +17,7 @@ interface FlowGraphProps {
 }
 
 export default forwardRef<FlowGraphRef, FlowGraphProps>(({ initialNodes = [], initialEdges = [] }, ref) => {
-  const { nodes, edges, onNodesChange, onEdgesChange, onConnect, onEdgesDelete, onAddNode } = useFlowGraph(
-    initialNodes,
-    initialEdges,
-  )
+  const { nodes, edges, onNodesChange, onEdgesChange, onConnect, onAddNode } = useFlowGraph(initialNodes, initialEdges)
   // const { x, y } = useViewport()
 
   useImperativeHandle(ref, () => ({
@@ -42,7 +39,6 @@ export default forwardRef<FlowGraphRef, FlowGraphProps>(({ initialNodes = [], in
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
       onConnect={onConnect}
-      onEdgesDelete={onEdgesDelete}
       defaultEdgeOptions={{
         markerEnd: {
           type: MarkerType.ArrowClosed,

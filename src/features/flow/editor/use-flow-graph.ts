@@ -1,7 +1,9 @@
+import { produce } from "immer"
 import {
   Connection,
   Edge,
   EdgeChange,
+  EdgeRemoveChange,
   Node,
   NodeChange,
   addEdge,
@@ -9,9 +11,8 @@ import {
   applyNodeChanges,
   useReactFlow,
 } from "reactflow"
-import { produce } from "immer"
-import { useDataFlowContext } from "./context"
 import { newNodeId } from "../nodes"
+import { useDataFlowContext } from "./context"
 
 type NodeType = "number" | "multiple" | "result" | "add"
 
@@ -36,7 +37,7 @@ export default function useFlowGraph(initialNodes: Node[], initialEdges: Edge[])
     )
   }
 
-  const createDataSourceLink = useCallback(
+  const onAddEdge = useCallback(
     (edge: Edge | Connection) => {
       const { source, target, targetHandle } = edge
       subscribe(source as string, target as string, (data) => {
@@ -65,23 +66,33 @@ export default function useFlowGraph(initialNodes: Node[], initialEdges: Edge[])
     [removeDataSource],
   )
 
-  const onEdgesChange = useCallback((changes: EdgeChange[]) => setEdges((eds) => applyEdgeChanges(changes, eds)), [])
+  const onDeleteEdge = useCallback(
+    (edge: Edge) => {
+      unsubscribe(edge.source, edge.target)
+    },
+    [unsubscribe],
+  )
+
+  const onEdgesChange = useCallback(
+    (changes: EdgeChange[]) => {
+      changes
+        .filter((change) => change.type === "remove")
+        .forEach((change) => {
+          const edge = instance.getEdge((change as EdgeRemoveChange).id)
+          if (edge) onDeleteEdge(edge)
+        })
+
+      setEdges((eds) => applyEdgeChanges(changes, eds))
+    },
+    [instance, onDeleteEdge],
+  )
 
   const onConnect = useCallback(
     (params: Edge | Connection) => {
-      createDataSourceLink(params)
+      onAddEdge(params)
       setEdges((eds) => addEdge(params, eds))
     },
-    [createDataSourceLink],
-  )
-
-  const onEdgesDelete = useCallback(
-    (eds: Edge[]) => {
-      eds.forEach((edge) => {
-        unsubscribe(edge.source, edge.target)
-      })
-    },
-    [unsubscribe],
+    [onAddEdge],
   )
 
   function onAddNode(key: React.Key) {
@@ -89,8 +100,8 @@ export default function useFlowGraph(initialNodes: Node[], initialEdges: Edge[])
   }
 
   useEffect(() => {
-    initialEdges.forEach(createDataSourceLink)
-  }, [createDataSourceLink, initialEdges])
+    initialEdges.forEach(onAddEdge)
+  }, [onAddEdge, initialEdges])
 
-  return { nodes, edges, onNodesChange, onEdgesChange, onConnect, onEdgesDelete, onAddNode }
+  return { nodes, edges, onNodesChange, onEdgesChange, onConnect, onAddNode }
 }
