@@ -1,12 +1,16 @@
 import { Card, CardBody, CardHeader, Chip, Divider } from "@nextui-org/react"
 import { Handle, NodeProps, Position } from "reactflow"
+import { isNil } from "lodash-es"
 import { useDataFlowContext } from "../context"
+import useHandle from "../use-handle"
 
 export default memo<NodeProps>(({ id, isConnectable, data }) => {
   const { getDataSource } = useDataFlowContext()
+  const { limitConnectable } = useHandle(id)
   const dataSource = useMemo(() => getDataSource(id), [getDataSource, id])
 
   const effect = useCallback((d: typeof data) => {
+    if (isNil(d.op1) || isNil(d.op2)) return 0
     return Number(d.op1) * Number(d.op2)
   }, [])
 
@@ -33,14 +37,14 @@ export default memo<NodeProps>(({ id, isConnectable, data }) => {
         type="target"
         position={Position.Left}
         style={{ top: "auto", bottom: 65 }}
-        isConnectable={isConnectable}
+        isConnectable={limitConnectable("op1", 1)}
       />
       <Handle
         id="op2"
         type="target"
         position={Position.Left}
         style={{ top: "auto", bottom: 25 }}
-        isConnectable={isConnectable}
+        isConnectable={limitConnectable("op2", 1)}
       />
       <Handle type="source" position={Position.Right} isConnectable={isConnectable} onConnect={onConnect} />
     </>
