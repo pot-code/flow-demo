@@ -9,8 +9,8 @@ import DataFlowProvider from "@/features/home/context"
 const initialNodes: Node[] = [
   { id: "1", type: "number", position: { x: 0, y: 0 }, data: {} },
   { id: "2", type: "number", position: { x: 0, y: 150 }, data: {} },
-  { id: "3", type: "multiple", position: { x: 300, y: 0 }, data: { length: 0, width: 0, result: 0 } },
-  { id: "4", type: "result", position: { x: 600, y: 100 }, data: { input: undefined } },
+  { id: "3", type: "multiple", position: { x: 300, y: 0 }, data: {} },
+  { id: "4", type: "result", position: { x: 600, y: 100 }, data: {} },
 ]
 
 const initialEdges: Edge[] = [
