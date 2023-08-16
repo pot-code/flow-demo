@@ -1,7 +1,7 @@
 import React from "react"
 import { createRoot } from "react-dom/client"
-import { QueryClient, QueryClientProvider } from "react-query"
 import { NextUIProvider } from "@nextui-org/react"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 import App from "./app"
 import "./i18n"

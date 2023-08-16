@@ -1,5 +1,5 @@
 import axios, { type AxiosResponse } from "axios"
-import { UnauthorizedError } from "./error"
+import { HttpError } from "./error"
 import { HttpErrorStream } from "./event"
 import type { HttpResponse } from "./types"
 
@@ -9,9 +9,6 @@ export function captureBusinessError(res: AxiosResponse) {
     return res
   }
 
-  if (code === 401) {
-    HttpErrorStream.next(new UnauthorizedError())
-  }
   return Promise.reject(res)
 }
 
@@ -23,16 +20,16 @@ export function handleRejection(err: any) {
   if (err.data) {
     const { data } = err as AxiosResponse<HttpResponse<null>>
     const { msg, code } = data
-    HttpErrorStream.next(new Error(msg || code.toString()))
+    HttpErrorStream.next(new HttpError(msg || "", code))
   } else if (err.response) {
     const { msg, code } = err.response.data as HttpResponse<null>
-    HttpErrorStream.next(new Error(msg || code.toString()))
+    HttpErrorStream.next(new HttpError(msg || "", code))
   } else if (err.request) {
-    HttpErrorStream.next(new Error("服务器未响应"))
+    HttpErrorStream.next(new HttpError("请求超时" || "", -1))
   } else if (err instanceof Error) {
-    HttpErrorStream.next(err)
+    HttpErrorStream.next(HttpError.fromError(err))
   } else {
-    HttpErrorStream.next(new Error("未知错误"))
+    HttpErrorStream.next(new HttpError("未知错误" || "", -1))
   }
   Promise.reject(err)
 }
