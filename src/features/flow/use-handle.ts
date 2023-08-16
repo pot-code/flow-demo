@@ -5,11 +5,13 @@ export default function useHandle(id: string) {
   const edges = useStore((state) => state.edges)
 
   const limitConnection = useCallback(
-    (handleId: string, count: number) => {
+    (handleType: "source" | "target", handleId: string, count: number) => {
       const node = nodeInternals.get(id)
       if (node) {
         const connectedEdges = getConnectedEdges([node], edges)
-        const connections = connectedEdges.filter((e) => e.targetHandle === handleId).length
+        const connections = connectedEdges.filter(
+          (e) => e[handleType] === id && e[`${handleType}Handle`] === handleId,
+        ).length
         if (connections >= count) {
           return false
         }
@@ -20,7 +22,7 @@ export default function useHandle(id: string) {
   )
 
   const isConnected = useCallback(
-    (handleId: string, handleType: "source" | "target") => {
+    (handleType: "source" | "target", handleId: string) => {
       const node = nodeInternals.get(id)
       if (node) {
         const connectedEdges = getConnectedEdges([node], edges)

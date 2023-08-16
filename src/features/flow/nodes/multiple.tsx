@@ -28,10 +28,10 @@ export default memo<NodeProps>(({ id, isConnectable, data }) => {
         <CardHeader>Multiple</CardHeader>
         <Divider />
         <CardBody className="gap-3">
-          <Chip color={isConnected("op1", "target") ? "success" : "default"} variant="flat">
+          <Chip color={isConnected("target", "op1") ? "success" : "default"} variant="flat">
             Input: {data.op1}
           </Chip>
-          <Chip color={isConnected("op2", "target") ? "success" : "default"} variant="flat">
+          <Chip color={isConnected("target", "op2") ? "success" : "default"} variant="flat">
             Input: {data.op2}
           </Chip>
         </CardBody>
@@ -41,14 +41,14 @@ export default memo<NodeProps>(({ id, isConnectable, data }) => {
         type="target"
         position={Position.Left}
         style={{ top: "auto", bottom: 65 }}
-        isConnectable={limitConnection("op1", 1)}
+        isConnectable={limitConnection("target", "op1", 1)}
       />
       <Handle
         id="op2"
         type="target"
         position={Position.Left}
         style={{ top: "auto", bottom: 25 }}
-        isConnectable={limitConnection("op2", 1)}
+        isConnectable={limitConnection("target", "op2", 1)}
       />
       <Handle id="value" type="source" position={Position.Right} isConnectable={isConnectable} onConnect={onConnect} />
     </>
