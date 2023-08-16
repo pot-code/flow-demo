@@ -13,7 +13,7 @@ export default memo<NodeProps>(({ id, data }) => {
           <Input
             isReadOnly
             className="nodrag"
-            color={isConnected("value") ? "success" : "default"}
+            color={isConnected("value", "target") ? "success" : "default"}
             size="sm"
             type="number"
             value={data.value}

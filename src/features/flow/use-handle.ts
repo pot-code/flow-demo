@@ -20,11 +20,11 @@ export default function useHandle(id: string) {
   )
 
   const isConnected = useCallback(
-    (handleId: string) => {
+    (handleId: string, handleType: "source" | "target") => {
       const node = nodeInternals.get(id)
       if (node) {
         const connectedEdges = getConnectedEdges([node], edges)
-        return connectedEdges.some((e) => e.targetHandle === handleId)
+        return connectedEdges.some((e) => e[handleType] === id && e[`${handleType}Handle`] === handleId)
       }
       return false
     },
