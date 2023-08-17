@@ -43,6 +43,7 @@ export default forwardRef<FlowGraphRef, FlowGraphProps>(({ initialNodes = [], in
       onEdgesChange={onEdgesChange}
       onConnect={onConnect}
       defaultEdgeOptions={{
+        animated: true,
         markerEnd: {
           type: MarkerType.ArrowClosed,
         },
@@ -55,7 +56,7 @@ export default forwardRef<FlowGraphRef, FlowGraphProps>(({ initialNodes = [], in
               <Plus />
             </Button>
           </DropdownTrigger>
-          <DropdownMenu onAction={onAddNode}>
+          <DropdownMenu variant="flat" onAction={onAddNode}>
             <DropdownItem key="number">Number</DropdownItem>
             <DropdownItem key="add">Addition</DropdownItem>
             <DropdownItem key="multiple">Multiply</DropdownItem>
