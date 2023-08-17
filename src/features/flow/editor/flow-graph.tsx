@@ -31,12 +31,12 @@ export default forwardRef<FlowGraphRef, FlowGraphProps>(({ initialNodes = [], in
 
   useEffect(() => {
     setNodes(initialNodes)
-    setEdges(initialEdges)
-  }, [initialEdges, initialNodes, setEdges, setNodes])
+  }, [initialNodes, setNodes])
 
   useEffect(() => {
+    setEdges(initialEdges)
     initialEdges.forEach(onAddEdge)
-  }, [initialEdges, onAddEdge])
+  }, [initialEdges, onAddEdge, setEdges])
 
   return (
     <ReactFlow
@@ -54,6 +54,10 @@ export default forwardRef<FlowGraphRef, FlowGraphProps>(({ initialNodes = [], in
         markerEnd: {
           type: MarkerType.ArrowClosed,
         },
+      }}
+      fitViewOptions={{
+        minZoom: 1,
+        maxZoom: 1,
       }}
     >
       <Panel position="top-left">

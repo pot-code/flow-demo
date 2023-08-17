@@ -1,9 +1,9 @@
 import { Card, CardBody, CardHeader, Divider, Input } from "@nextui-org/react"
 import { Handle, NodeProps, Position } from "reactflow"
-import useHandle from "../use-handle"
+import useNode from "../use-node"
 
 export default memo<NodeProps>(({ id, data }) => {
-  const { limitConnection, isConnected } = useHandle(id)
+  const { limitConnection, isConnected } = useNode(id)
   return (
     <>
       <Card>

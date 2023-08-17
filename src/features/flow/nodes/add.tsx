@@ -2,15 +2,15 @@ import { Card, CardBody, CardHeader, Chip, Divider } from "@nextui-org/react"
 import { Handle, NodeProps, Position } from "reactflow"
 import { isNil } from "lodash-es"
 import { useDataFlowContext } from "../editor/context"
-import useHandle from "../use-handle"
+import useNode from "../use-node"
 
 export default memo<NodeProps>(({ id, isConnectable, data }) => {
   const { getDataSource } = useDataFlowContext()
-  const { limitConnection, isConnected } = useHandle(id)
+  const { limitConnection, isConnected } = useNode(id)
   const dataSource = useMemo(() => getDataSource(id), [getDataSource, id])
 
   const effect = useCallback((d: typeof data) => {
-    if (isNil(d.op1) || isNil(d.op2)) return 0
+    if (isNil(d.op1) || isNil(d.op2)) return undefined
     return Number(d.op1) + Number(d.op2)
   }, [])
 
@@ -29,10 +29,10 @@ export default memo<NodeProps>(({ id, isConnectable, data }) => {
         <Divider />
         <CardBody className="gap-unit-sm">
           <Chip color={isConnected("target", "op1") ? "success" : "default"} variant="flat">
-            Input: {data.op1}
+            Input: {data.op1 ?? "NaN"}
           </Chip>
           <Chip color={isConnected("target", "op2") ? "success" : "default"} variant="flat">
-            Input: {data.op2}
+            Input: {data.op2 ?? "NaN"}
           </Chip>
         </CardBody>
       </Card>

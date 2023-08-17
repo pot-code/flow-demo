@@ -16,10 +16,10 @@ export const handlers = [
         msg: null,
         data: {
           nodes: [
-            { id: "1", type: "number", position: { x: 0, y: 0 }, data: {} },
-            { id: "2", type: "number", position: { x: 0, y: 150 }, data: {} },
-            { id: "3", type: "multiple", position: { x: 300, y: 0 }, data: {} },
-            { id: "4", type: "result", position: { x: 600, y: 100 }, data: {} },
+            { id: "1", type: "number", position: { x: 0, y: 0 }, data: { value: 3 } },
+            { id: "2", type: "number", position: { x: 0, y: 150 }, data: { value: 4 } },
+            { id: "3", type: "multiple", position: { x: 300, y: 0 }, data: { op1: 3, op2: 4, value: 12 } },
+            { id: "4", type: "result", position: { x: 600, y: 100 }, data: { value: 12 } },
           ],
           edges: [
             {

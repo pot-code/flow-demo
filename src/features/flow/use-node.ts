@@ -1,12 +1,12 @@
-import { getConnectedEdges, useStore } from "reactflow"
+import { getConnectedEdges, useReactFlow, useStore } from "reactflow"
 
-export default function useHandle(id: string) {
-  const nodeInternals = useStore((state) => state.nodeInternals)
+export default function useNode(id: string) {
+  const instance = useReactFlow()
   const edges = useStore((state) => state.edges)
 
   const limitConnection = useCallback(
     (handleType: "source" | "target", handleId: string, count: number) => {
-      const node = nodeInternals.get(id)
+      const node = instance.getNode(id)
       if (node) {
         const connectedEdges = getConnectedEdges([node], edges)
         const connections = connectedEdges.filter(
@@ -18,22 +18,37 @@ export default function useHandle(id: string) {
       }
       return true
     },
-    [edges, id, nodeInternals],
+    [edges, id, instance],
   )
 
   const isConnected = useCallback(
     (handleType: "source" | "target", handleId: string) => {
-      const node = nodeInternals.get(id)
+      const node = instance.getNode(id)
       if (node) {
         const connectedEdges = getConnectedEdges([node], edges)
         return connectedEdges.some((e) => e[handleType] === id && e[`${handleType}Handle`] === handleId)
       }
       return false
     },
-    [edges, id, nodeInternals],
+    [edges, id, instance],
+  )
+
+  const setNodeData = useCallback(
+    (data: any) => {
+      instance.setNodes((nds) =>
+        nds.map((node) => {
+          if (node.id === id) {
+            return { ...node, data }
+          }
+          return node
+        }),
+      )
+    },
+    [id, instance],
   )
 
   return {
+    setNodeData,
     isConnected,
     limitConnection,
   }

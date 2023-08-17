@@ -55,7 +55,7 @@ export default function Editor() {
           </div>
         </motion.div>
       </div>
-      <Modal isOpen={isSaving} hideCloseButton size="xs">
+      <Modal hideCloseButton size="xs" isOpen={isSaving}>
         <ModalContent>
           <ModalHeader>保存中</ModalHeader>
           <ModalBody>
@@ -64,7 +64,7 @@ export default function Editor() {
           <ModalFooter className="justify-center text-sm text-gray-500">请稍等...</ModalFooter>
         </ModalContent>
       </Modal>
-      <Modal isOpen={isLoadingData} hideCloseButton size="xs">
+      <Modal hideCloseButton size="xs" isOpen={isLoadingData}>
         <ModalContent>
           <ModalHeader>载入中</ModalHeader>
           <ModalBody>
