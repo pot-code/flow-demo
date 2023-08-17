@@ -15,9 +15,9 @@ import { newNodeId } from "../nodes"
 import { useDataFlowContext } from "./context"
 import useViewportCoordinate from "./use-viewport-coordinate"
 
-export default function useFlowGraph(initialNodes: Node[], initialEdges: Edge[]) {
-  const [nodes, setNodes] = useState<any[]>(initialNodes)
-  const [edges, setEdges] = useState<any[]>(initialEdges)
+export default function useFlowGraph() {
+  const [nodes, setNodes] = useState<Node[]>([])
+  const [edges, setEdges] = useState<Edge[]>([])
 
   const instance = useReactFlow()
   const { graphRef, offsetToOrigin, getViewportWidth, getViewportHeight } = useViewportCoordinate()
@@ -100,9 +100,5 @@ export default function useFlowGraph(initialNodes: Node[], initialEdges: Edge[])
     appendNode(key.toString())
   }
 
-  useEffect(() => {
-    initialEdges.forEach(onAddEdge)
-  }, [onAddEdge, initialEdges])
-
-  return { graphRef, nodes, edges, onNodesChange, onEdgesChange, onConnect, onAddNode }
+  return { graphRef, nodes, edges, setEdges, setNodes, onNodesChange, onEdgesChange, onConnect, onAddNode, onAddEdge }
 }

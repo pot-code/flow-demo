@@ -1,5 +1,5 @@
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react"
-import { Plus } from "@phosphor-icons/react"
+import { ArrowLeft, Plus } from "@phosphor-icons/react"
 import ReactFlow, { Background, BackgroundVariant, Controls, Edge, MarkerType, MiniMap, Node, Panel } from "reactflow"
 import { getNodeTypes } from "../nodes"
 import useFlowGraph from "./use-flow-graph"
@@ -17,10 +17,8 @@ interface FlowGraphProps {
 }
 
 export default forwardRef<FlowGraphRef, FlowGraphProps>(({ initialNodes = [], initialEdges = [] }, ref) => {
-  const { graphRef, nodes, edges, onNodesChange, onEdgesChange, onConnect, onAddNode } = useFlowGraph(
-    initialNodes,
-    initialEdges,
-  )
+  const { graphRef, nodes, edges, setEdges, setNodes, onNodesChange, onEdgesChange, onConnect, onAddNode, onAddEdge } =
+    useFlowGraph()
 
   useImperativeHandle(ref, () => ({
     getNodes() {
@@ -30,6 +28,15 @@ export default forwardRef<FlowGraphRef, FlowGraphProps>(({ initialNodes = [], in
       return edges
     },
   }))
+
+  useEffect(() => {
+    setNodes(initialNodes)
+    setEdges(initialEdges)
+  }, [initialEdges, initialNodes, setEdges, setNodes])
+
+  useEffect(() => {
+    initialEdges.forEach(onAddEdge)
+  }, [initialEdges, onAddEdge])
 
   return (
     <ReactFlow
@@ -50,19 +57,24 @@ export default forwardRef<FlowGraphRef, FlowGraphProps>(({ initialNodes = [], in
       }}
     >
       <Panel position="top-left">
-        <Dropdown>
-          <DropdownTrigger>
-            <Button isIconOnly color="primary" variant="shadow">
-              <Plus />
-            </Button>
-          </DropdownTrigger>
-          <DropdownMenu variant="flat" onAction={onAddNode}>
-            <DropdownItem key="number">Number</DropdownItem>
-            <DropdownItem key="add">Addition</DropdownItem>
-            <DropdownItem key="multiple">Multiply</DropdownItem>
-            <DropdownItem key="result">Result</DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
+        <div className="flex flex-col gap-unit-sm">
+          <Button isIconOnly variant="faded">
+            <ArrowLeft />
+          </Button>
+          <Dropdown>
+            <DropdownTrigger>
+              <Button isIconOnly color="primary" variant="shadow">
+                <Plus />
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu variant="flat" onAction={onAddNode}>
+              <DropdownItem key="number">Number</DropdownItem>
+              <DropdownItem key="add">Addition</DropdownItem>
+              <DropdownItem key="multiple">Multiply</DropdownItem>
+              <DropdownItem key="result">Result</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </div>
       </Panel>
       <MiniMap />
       <Controls />

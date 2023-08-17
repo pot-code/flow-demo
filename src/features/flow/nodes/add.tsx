@@ -27,7 +27,7 @@ export default memo<NodeProps>(({ id, isConnectable, data }) => {
       <Card>
         <CardHeader>Add</CardHeader>
         <Divider />
-        <CardBody className="gap-3">
+        <CardBody className="gap-unit-sm">
           <Chip color={isConnected("target", "op1") ? "success" : "default"} variant="flat">
             Input: {data.op1}
           </Chip>
