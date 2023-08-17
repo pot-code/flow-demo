@@ -5,11 +5,10 @@ import type { HttpResponse } from "./types"
 
 export function captureBusinessError(res: AxiosResponse) {
   const { code } = res.data
-  if (code === 200) {
-    return res
+  if (code && code !== 200) {
+    return Promise.reject(res)
   }
-
-  return Promise.reject(res)
+  return res
 }
 
 export function handleRejection(err: any) {

@@ -10,27 +10,27 @@ export default function useEditor() {
   const [nodes, setNodes] = useState<Node[]>([])
   const [edges, setEdges] = useState<Edge[]>([])
   const graphRef = useRef<FlowGraphRef>(null)
-  const saveMutation = useMutation(delayedPromise(1 * Time.Second, graphApi.save))
-  const dataQuery = useQuery({
-    enabled: !!flowId,
+  const query = useQuery({
+    enabled: Boolean(flowId),
     queryKey: ["flow", flowId],
     queryFn: () => delayedPromise(1 * Time.Second, graphApi.get)(flowId!).then((res) => res.data.data),
   })
+  const updateMutation = useMutation(delayedPromise(1 * Time.Second, graphApi.update))
 
   function saveGraph() {
     const nds = graphRef.current?.getNodes()
     const eds = graphRef.current?.getEdges()
     if (nds && eds) {
-      saveMutation.mutate({ nodes: nds, edges: eds })
+      updateMutation.mutate({ id: flowId!, nodes: nds, edges: eds })
     }
   }
 
   useEffect(() => {
-    if (dataQuery.data) {
-      setNodes(dataQuery.data.nodes)
-      setEdges(dataQuery.data.edges)
+    if (query.data) {
+      setNodes(query.data.nodes)
+      setEdges(query.data.edges)
     }
-  }, [dataQuery.data])
+  }, [query.data])
 
-  return { isSaving: saveMutation.isLoading, isLoadingData: dataQuery.isFetching, nodes, edges, graphRef, saveGraph }
+  return { isSaving: updateMutation.isLoading, isLoadingData: query.isFetching, nodes, edges, graphRef, saveGraph }
 }

@@ -1,7 +1,7 @@
 import { rest } from "msw"
 
 export const handlers = [
-  rest.post("/mock/flow/graph", (_, res, ctx) =>
+  rest.post("/mock/flow", (_, res, ctx) =>
     res(
       ctx.json({
         code: 200,
@@ -9,7 +9,7 @@ export const handlers = [
       }),
     ),
   ),
-  rest.get("/mock/flow/graph/1", (_, res, ctx) =>
+  rest.get("/mock/flow/1", (_, res, ctx) =>
     res(
       ctx.json({
         code: 200,
