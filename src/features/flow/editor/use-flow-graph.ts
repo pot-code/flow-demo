@@ -13,21 +13,24 @@ import {
 } from "reactflow"
 import { newNodeId } from "../nodes"
 import { useDataFlowContext } from "./context"
+import useGraphCoordinate from "./use-graph-coordinate"
 
 type NodeType = "number" | "multiple" | "result" | "add"
 
 export default function useFlowGraph(initialNodes: Node[], initialEdges: Edge[]) {
   const [nodes, setNodes] = useState<any[]>(initialNodes)
   const [edges, setEdges] = useState<any[]>(initialEdges)
+
   const instance = useReactFlow()
+  const { graphRef, getViewportCenter } = useGraphCoordinate()
   const { subscribe, unsubscribe, removeDataSource } = useDataFlowContext()
 
   function appendNode(type: NodeType) {
-    const { x, y } = instance.getViewport()
+    const [x, y] = getViewportCenter()
     const node: Node = {
       type,
       id: newNodeId(),
-      position: { x: -x + 80, y: -y + 80 },
+      position: { x, y },
       data: {},
     }
     setNodes(
@@ -40,7 +43,7 @@ export default function useFlowGraph(initialNodes: Node[], initialEdges: Edge[])
   const onAddEdge = useCallback(
     (edge: Edge | Connection) => {
       const { source, target, targetHandle } = edge
-      subscribe(source as string, target as string, (data) => {
+      subscribe(source as string, target as string, targetHandle as string, (data) => {
         setNodes((nds) =>
           nds.map((node) => {
             if (node.id === target) {
@@ -68,7 +71,7 @@ export default function useFlowGraph(initialNodes: Node[], initialEdges: Edge[])
 
   const onDeleteEdge = useCallback(
     (edge: Edge) => {
-      unsubscribe(edge.source, edge.target)
+      unsubscribe(edge.source, edge.target, edge.targetHandle as string)
     },
     [unsubscribe],
   )
@@ -103,5 +106,5 @@ export default function useFlowGraph(initialNodes: Node[], initialEdges: Edge[])
     initialEdges.forEach(onAddEdge)
   }, [onAddEdge, initialEdges])
 
-  return { nodes, edges, onNodesChange, onEdgesChange, onConnect, onAddNode }
+  return { graphRef, nodes, edges, onNodesChange, onEdgesChange, onConnect, onAddNode }
 }

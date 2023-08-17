@@ -17,8 +17,10 @@ interface FlowGraphProps {
 }
 
 export default forwardRef<FlowGraphRef, FlowGraphProps>(({ initialNodes = [], initialEdges = [] }, ref) => {
-  const { nodes, edges, onNodesChange, onEdgesChange, onConnect, onAddNode } = useFlowGraph(initialNodes, initialEdges)
-  // const { x, y } = useViewport()
+  const { graphRef, nodes, edges, onNodesChange, onEdgesChange, onConnect, onAddNode } = useFlowGraph(
+    initialNodes,
+    initialEdges,
+  )
 
   useImperativeHandle(ref, () => ({
     getNodes() {
@@ -33,6 +35,7 @@ export default forwardRef<FlowGraphRef, FlowGraphProps>(({ initialNodes = [], in
     <ReactFlow
       fitView
       className="bg-gray-50"
+      ref={graphRef}
       nodes={nodes}
       edges={edges}
       nodeTypes={nodeTypes}
@@ -63,7 +66,6 @@ export default forwardRef<FlowGraphRef, FlowGraphProps>(({ initialNodes = [], in
       <MiniMap />
       <Controls />
       <Background variant={BackgroundVariant.Dots} />
-      {/* <div className="absolute rounded-full bg-red-500 w-2 h-2" style={{ left: `${x - 10}px`, top: `${y - 10}px` }} /> */}
     </ReactFlow>
   )
 })

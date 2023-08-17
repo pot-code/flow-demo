@@ -4,8 +4,14 @@ import { Subject, Unsubscribable } from "rxjs"
 interface DataFlowContextProps {
   getDataSource: (id: string) => DataSource
   removeDataSource: (id: string) => void
-  subscribe: (sourceId: string, targetId: string, fn: (data: any) => void) => void
-  unsubscribe: (sourceId: string, targetId: string) => void
+  subscribe: (sourceId: string, targetId: string, targetHandle: string, fn: (data: any) => void) => void
+  unsubscribe: (sourceId: string, targetId: string, targetHandle: string) => void
+}
+
+interface Subscription {
+  targetId: string
+  targetHandle: string
+  stub: Unsubscribable
 }
 
 const DataFlowContext = React.createContext<DataFlowContextProps | null>(null)
@@ -13,19 +19,19 @@ const DataFlowContext = React.createContext<DataFlowContextProps | null>(null)
 class DataSource {
   private sub = new Subject()
 
-  private subscriptions: { id: string; stub: Unsubscribable }[] = []
+  private subscriptions: Subscription[] = []
 
   publish(data: any) {
     this.sub.next(data)
   }
 
-  subscribe(id: string, fn: (data: any) => void) {
-    if (this.subscriptions.some((sub) => sub.id === id)) return
-    this.subscriptions.push({ id, stub: this.sub.subscribe(fn) })
+  subscribe(targetId: string, targetHandle: string, fn: (data: any) => void) {
+    if (this.subscriptions.some((sub) => sub.targetId === targetId && sub.targetHandle === targetHandle)) return
+    this.subscriptions.push({ targetId, targetHandle, stub: this.sub.subscribe(fn) })
   }
 
-  unsubscribe(id: string) {
-    const index = this.subscriptions.findIndex((sub) => sub.id === id)
+  unsubscribe(targetId: string, targetHandle: string) {
+    const index = this.subscriptions.findIndex((sub) => sub.targetId === targetId && sub.targetHandle === targetHandle)
     if (index > -1) this.subscriptions.splice(index, 1)[0].stub.unsubscribe()
   }
 
@@ -39,10 +45,8 @@ export default function DataFlowProvider({ children }: { children: React.ReactNo
 
   const removeDataSource = useCallback(
     (id: string) => {
-      if (dataSourceMap.has(id)) {
-        dataSourceMap.get(id)?.dispose()
-        dataSourceMap.delete(id)
-      }
+      dataSourceMap.get(id)?.dispose()
+      dataSourceMap.delete(id)
     },
     [dataSourceMap],
   )
@@ -60,19 +64,15 @@ export default function DataFlowProvider({ children }: { children: React.ReactNo
   )
 
   const subscribe = useCallback(
-    (sourceId: string, targetId: string, fn: (data: any) => void) => {
-      const dataSource = getDataSource(sourceId)
-      dataSource.subscribe(targetId, fn)
+    (sourceId: string, targetId: string, targetHandle: string, fn: (data: any) => void) => {
+      getDataSource(sourceId).subscribe(targetId, targetHandle, fn)
     },
     [getDataSource],
   )
 
   const unsubscribe = useCallback(
-    (sourceId: string, targetId: string) => {
-      const dataSource = dataSourceMap.get(sourceId)
-      if (dataSource) {
-        dataSource.unsubscribe(targetId)
-      }
+    (sourceId: string, targetId: string, targetHandle: string) => {
+      dataSourceMap.get(sourceId)?.unsubscribe(targetId, targetHandle)
     },
     [dataSourceMap],
   )
