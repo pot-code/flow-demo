@@ -13,20 +13,18 @@ import {
 } from "reactflow"
 import { newNodeId } from "../nodes"
 import { useDataFlowContext } from "./context"
-import useGraphCoordinate from "./use-graph-coordinate"
-
-type NodeType = "number" | "multiple" | "result" | "add"
+import useViewportCoordinate from "./use-viewport-coordinate"
 
 export default function useFlowGraph(initialNodes: Node[], initialEdges: Edge[]) {
   const [nodes, setNodes] = useState<any[]>(initialNodes)
   const [edges, setEdges] = useState<any[]>(initialEdges)
 
   const instance = useReactFlow()
-  const { graphRef, getViewportCenter } = useGraphCoordinate()
+  const { graphRef, offsetToOrigin, getViewportWidth, getViewportHeight } = useViewportCoordinate()
   const { subscribe, unsubscribe, removeDataSource } = useDataFlowContext()
 
-  function appendNode(type: NodeType) {
-    const [x, y] = getViewportCenter()
+  function appendNode(type: string) {
+    const [x, y] = offsetToOrigin(getViewportWidth() / 4, getViewportHeight() / 4)
     const node: Node = {
       type,
       id: newNodeId(),
@@ -99,7 +97,7 @@ export default function useFlowGraph(initialNodes: Node[], initialEdges: Edge[])
   )
 
   function onAddNode(key: React.Key) {
-    appendNode(key as NodeType)
+    appendNode(key.toString())
   }
 
   useEffect(() => {
