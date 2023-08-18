@@ -21,7 +21,6 @@ import useSidebarStore from "@/features/flow/editor/use-sidebar-store"
 
 export default function Editor() {
   const { isSaving, isLoadingData, nodes, edges, graphRef, saveGraph } = useEditor()
-
   const { isOpen, toggleOff } = useSidebarStore()
 
   return (

@@ -1,4 +1,3 @@
-import { Edge, Node } from "reactflow"
 import http from "@/core/http"
 import { HttpResponse } from "@/core/http/types"
 
@@ -18,19 +17,19 @@ export const graphApi = {
 
 export interface SaveFlowGraphData {
   name?: string
-  nodes: Node[]
-  edges: Edge[]
+  nodes: string
+  edges: string
 }
 
 export interface UpdateFlowGraphData {
   id: string
   name?: string
-  nodes: Node[]
-  edges: Edge[]
+  nodes: string
+  edges: string
 }
 
 export interface FlowGraphData {
   id: string
-  nodes: Node[]
-  edges: Edge[]
+  nodes: string
+  edges: string
 }

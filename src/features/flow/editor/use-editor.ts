@@ -21,14 +21,14 @@ export default function useEditor() {
     const nds = graphRef.current?.getNodes()
     const eds = graphRef.current?.getEdges()
     if (nds && eds) {
-      updateMutation.mutate({ id: flowId!, nodes: nds, edges: eds })
+      updateMutation.mutate({ id: flowId!, nodes: JSON.stringify(nds), edges: JSON.stringify(eds) })
     }
   }
 
   useEffect(() => {
     if (query.data) {
-      setNodes(query.data.nodes)
-      setEdges(query.data.edges)
+      if (query.data.nodes) setNodes(JSON.parse(query.data.nodes))
+      if (query.data.edges) setEdges(JSON.parse(query.data.edges))
     }
   }, [query.data])
 
