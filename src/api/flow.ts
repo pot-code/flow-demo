@@ -10,8 +10,8 @@ export const graphApi = {
     data.name = "test"
     return http.put(`/flow/${data.id}`, data)
   },
-  get(flowId: string) {
-    return http.get<HttpResponse<FlowGraphData>>(`/flow/${flowId}`)
+  getByID(flowId: string) {
+    return http.get<HttpResponse<FlowGraphData>>(`/flow/${flowId}`).then((res) => res.data)
   },
 }
 
