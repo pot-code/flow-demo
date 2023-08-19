@@ -13,7 +13,7 @@ export function captureBusinessError(res: AxiosResponse) {
 
 export function handleRejection(err: any) {
   if (axios.isCancel(err)) {
-    return
+    return Promise.resolve()
   }
 
   if (err.data) {
@@ -30,5 +30,5 @@ export function handleRejection(err: any) {
   } else {
     HttpErrorStream.next(new HttpError("未知错误" || "", -1))
   }
-  Promise.reject(err)
+  return Promise.reject(err)
 }

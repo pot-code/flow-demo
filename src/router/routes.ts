@@ -4,7 +4,7 @@ import FlowEditor from "../views/flow/editor"
 
 export const routes: RouteObject[] = [
   {
-    path: "/:flowId",
+    path: "/flow/:flowId",
     element: React.createElement(FlowEditor),
   },
 ]

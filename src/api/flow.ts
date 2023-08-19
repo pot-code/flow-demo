@@ -2,17 +2,15 @@ import http from "@/core/http"
 import { HttpResponse } from "@/core/http/types"
 
 export const graphApi = {
-  save(data: SaveFlowGraphData) {
+  save: (data: SaveFlowGraphData) => {
     data.name = "test"
     return http.post("/flow", data)
   },
-  update(data: UpdateFlowGraphData) {
+  update: (data: UpdateFlowGraphData) => {
     data.name = "test"
     return http.put(`/flow/${data.id}`, data)
   },
-  getByID(flowId: string) {
-    return http.get<HttpResponse<FlowGraphData>>(`/flow/${flowId}`).then((res) => res.data)
-  },
+  getByID: (flowId: string) => http.get<HttpResponse<FlowGraphData>>(`/flow/${flowId}`),
 }
 
 export interface SaveFlowGraphData {

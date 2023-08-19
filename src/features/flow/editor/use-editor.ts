@@ -14,7 +14,7 @@ export default function useEditor() {
   const flowQuery = useQuery({
     enabled: Boolean(flowId),
     queryKey: ["flow", flowId],
-    queryFn: () => delayedPromise(0.5 * Time.Second, graphApi.getByID)(flowId!).then((res) => res.data),
+    queryFn: () => delayedPromise(0.5 * Time.Second, graphApi.getByID)(flowId!).then((res) => res.data.data),
   })
   const updateMutation = useMutation(delayedPromise(0.5 * Time.Second, graphApi.update))
 
