@@ -1,0 +1,29 @@
+.toast[data-state="open"] {
+  animation-name: slide-in;
+  animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.toast[data-state="closed"] {
+  animation-name: fade;
+  animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(calc(100% + var(--nextui-spacing-unit-sm)));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

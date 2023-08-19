@@ -11,17 +11,14 @@ import {
   NavbarItem,
   Spinner,
 } from "@nextui-org/react"
-import { Crown, FloppyDisk, X } from "@phosphor-icons/react"
-import { motion } from "framer-motion"
+import { Crown, FloppyDisk } from "@phosphor-icons/react"
 import { ReactFlowProvider } from "reactflow"
 import DataFlowProvider from "@/features/flow/editor/context"
 import FlowGraph from "@/features/flow/editor/flow-graph"
 import useEditor from "@/features/flow/editor/use-editor"
-import useSidebarStore from "@/features/flow/editor/use-sidebar-store"
 
 export default function Editor() {
   const { isSaving, isLoadingData, nodes, edges, graphRef, saveGraph } = useEditor()
-  const { isOpen, toggleOff } = useSidebarStore()
 
   return (
     <div className="h-screen w-screen flex flex-col">
@@ -46,13 +43,6 @@ export default function Editor() {
             <FlowGraph ref={graphRef} initialNodes={nodes} initialEdges={edges} />
           </ReactFlowProvider>
         </DataFlowProvider>
-        <motion.div className="h-full overflow-x-hidden" animate={{ width: isOpen ? "480px" : "0px" }}>
-          <div className="p-unit-sm">
-            <Button isIconOnly color="default" variant="light" onClick={toggleOff}>
-              <X weight="bold" />
-            </Button>
-          </div>
-        </motion.div>
       </div>
       <Modal hideCloseButton size="xs" isOpen={isSaving}>
         <ModalContent>

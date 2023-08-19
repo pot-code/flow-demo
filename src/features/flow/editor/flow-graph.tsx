@@ -80,7 +80,7 @@ export default forwardRef<FlowGraphRef, FlowGraphProps>(({ initialNodes = [], in
           </Dropdown>
         </div>
       </Panel>
-      <MiniMap />
+      <MiniMap position="top-right" />
       <Controls />
       <Background variant={BackgroundVariant.Dots} />
     </ReactFlow>
