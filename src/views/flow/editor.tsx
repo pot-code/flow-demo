@@ -1,42 +1,27 @@
-import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-  Spinner,
-} from "@nextui-org/react"
-import { Crown } from "@phosphor-icons/react"
+import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Spinner } from "@nextui-org/react"
+import { ArrowLeft } from "@phosphor-icons/react"
 import { ReactFlowProvider } from "reactflow"
 import DataFlowProvider from "@/features/flow/editor/context"
 import FlowGraph from "@/features/flow/editor/flow-graph"
+import NameInput from "@/features/flow/editor/name-input"
 import useEditor from "@/features/flow/editor/use-editor"
 
 export default function Editor() {
-  const { isSaving, isLoadingData, nodes, edges, graphRef, saveGraph } = useEditor()
+  const { isSaving, isLoadingData, nodes, edges, graphRef, saveGraph, setGraphName } = useEditor()
 
   return (
     <div className="h-screen w-screen flex flex-col">
-      <Navbar isBordered>
-        <NavbarBrand>
-          <p className="font-bold">流程设计</p>
-        </NavbarBrand>
-        <NavbarContent justify="end">
-          <NavbarItem className="space-x-unit-sm">
-            <Button color="warning" variant="ghost" startContent={<Crown />}>
-              升级
-            </Button>
-            <Button color="primary" onClick={saveGraph}>
-              保存
-            </Button>
-          </NavbarItem>
-        </NavbarContent>
-      </Navbar>
+      <nav className="flex justify-between items-center px-unit-xl h-12 border-b-1">
+        <Button isIconOnly size="sm" variant="light">
+          <ArrowLeft />
+        </Button>
+        <NameInput defaultValue="未命名" onBlur={setGraphName} />
+        <div>
+          <Button size="sm" color="primary" variant="flat" onClick={saveGraph}>
+            保存
+          </Button>
+        </div>
+      </nav>
       <div className="flex-grow flex">
         <DataFlowProvider>
           <ReactFlowProvider>

@@ -9,6 +9,7 @@ import { useToast } from "@/components/toast"
 export default function useEditor() {
   const [nodes, setNodes] = useState<Node[]>([])
   const [edges, setEdges] = useState<Edge[]>([])
+  const [graphName, setGraphName] = useState("未命名")
 
   const { flowId } = useParams()
   const toast = useToast()
@@ -48,5 +49,14 @@ export default function useEditor() {
     }
   }, [queryFlow.isError, toast])
 
-  return { isSaving: updateFlow.isLoading, isLoadingData: queryFlow.isFetching, nodes, edges, graphRef, saveGraph }
+  return {
+    isSaving: updateFlow.isLoading,
+    isLoadingData: queryFlow.isFetching,
+    graphName,
+    nodes,
+    edges,
+    graphRef,
+    setGraphName,
+    saveGraph,
+  }
 }
