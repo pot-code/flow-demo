@@ -1,7 +1,8 @@
-import * as RadixToast from "@radix-ui/react-toast"
+import { AnimatePresence, motion } from "framer-motion"
 import { createContext, useContext, useMemo } from "react"
 import Toast from "./toast"
 import { MessageType } from "./types"
+import Viewport from "./viewport"
 
 interface MessageConfig {
   description?: string
@@ -54,20 +55,36 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <Context.Provider value={value}>
-      <RadixToast.Provider>
-        {children}
-        {messages.map((message) => (
-          <Toast
-            key={message.id}
-            title={message.title}
-            description={message.description}
-            type={message.type}
-            duration={message.duration}
-            onClose={() => onMessageClose(message.id)}
-          />
-        ))}
-        <RadixToast.Viewport className="fixed right-0 bottom-0 flex flex-col gap-unit-sm w-[372px] p-unit-md z-[999]" />
-      </RadixToast.Provider>
+      {children}
+      <Viewport>
+        <AnimatePresence>
+          {messages.map((message) => (
+            <motion.li
+              layout
+              className="list-none"
+              key={message.id}
+              style={{
+                x: "100%",
+                opacity: 0,
+              }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{
+                stiffness: 300,
+                damping: 30,
+              }}
+            >
+              <Toast
+                title={message.title}
+                description={message.description}
+                type={message.type}
+                duration={message.duration}
+                onClose={() => onMessageClose(message.id)}
+              />
+            </motion.li>
+          ))}
+        </AnimatePresence>
+      </Viewport>
     </Context.Provider>
   )
 }

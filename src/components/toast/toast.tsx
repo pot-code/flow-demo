@@ -1,9 +1,6 @@
 import { Card, CardBody, CardHeader } from "@nextui-org/react"
 import { CheckCircle, Info, WarningCircle, XCircle } from "@phosphor-icons/react"
-import * as RadixToast from "@radix-ui/react-toast"
 import { MessageType } from "./types"
-
-import classes from "./toast.module.css"
 
 export interface ToastProps {
   title: string
@@ -13,43 +10,50 @@ export interface ToastProps {
   onClose: () => void
 }
 
-const animationDuration = 200
-
 export default memo<ToastProps>(({ title, description, type = "info", duration = 3000, onClose }) => {
-  const onOpenChange = useCallback(
-    (open: boolean) => {
-      if (!open) setTimeout(onClose, animationDuration)
-    },
-    [onClose],
-  )
+  const animationRef = useRef(new Animation())
+  const domRef = useRef<HTMLDivElement>(null)
+
+  const onMouseEnter = useCallback(() => {
+    if (animationRef.current) animationRef.current.pause()
+  }, [])
+
+  const onMouseLeave = useCallback(() => {
+    if (animationRef.current) animationRef.current.play()
+  }, [])
+
+  useEffect(() => {
+    if (domRef.current) {
+      const animation = domRef.current.animate(null, { duration })
+      animationRef.current = animation
+      animation.onfinish = onClose
+      animation.play()
+    }
+    return () => {
+      if (animationRef.current) animationRef.current.cancel()
+    }
+    // add deps will cause a lot of troubles
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
-    <RadixToast.Root
-      className={classes.toast}
-      style={{
-        animationDuration: `${animationDuration}ms`,
-      }}
-      duration={duration}
-      onOpenChange={onOpenChange}
-    >
-      <Card>
-        <CardHeader className="gap-unit-sm">
-          {(() => {
-            switch (type) {
-              case "success":
-                return <CheckCircle className="text-success-400" weight="fill" />
-              case "error":
-                return <XCircle className="text-danger-400" weight="fill" />
-              case "warning":
-                return <WarningCircle className="text-warning-400" weight="fill" />
-              default:
-                return <Info className="text-primary-400" weight="fill" />
-            }
-          })()}
-          <RadixToast.Title className="text-foreground-600">{title}</RadixToast.Title>
-        </CardHeader>
-        {description && <CardBody className="text-foreground-500 p-unit-sm text-sm">{description}</CardBody>}
-      </Card>
-    </RadixToast.Root>
+    <Card ref={domRef} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+      <CardHeader className="gap-unit-sm">
+        {(() => {
+          switch (type) {
+            case "success":
+              return <CheckCircle className="text-success-400" weight="fill" />
+            case "error":
+              return <XCircle className="text-danger-400" weight="fill" />
+            case "warning":
+              return <WarningCircle className="text-warning-400" weight="fill" />
+            default:
+              return <Info className="text-primary-400" weight="fill" />
+          }
+        })()}
+        <span className="text-foreground-600">{title}</span>
+      </CardHeader>
+      {description && <CardBody className="text-foreground-500 p-unit-sm text-sm">{description}</CardBody>}
+    </Card>
   )
 })
