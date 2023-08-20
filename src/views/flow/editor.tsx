@@ -11,7 +11,7 @@ import {
   NavbarItem,
   Spinner,
 } from "@nextui-org/react"
-import { Crown, FloppyDisk } from "@phosphor-icons/react"
+import { Crown } from "@phosphor-icons/react"
 import { ReactFlowProvider } from "reactflow"
 import DataFlowProvider from "@/features/flow/editor/context"
 import FlowGraph from "@/features/flow/editor/flow-graph"
@@ -31,7 +31,7 @@ export default function Editor() {
             <Button color="warning" variant="ghost" startContent={<Crown />}>
               升级
             </Button>
-            <Button color="primary" startContent={<FloppyDisk />} onClick={saveGraph}>
+            <Button color="primary" onClick={saveGraph}>
               保存
             </Button>
           </NavbarItem>

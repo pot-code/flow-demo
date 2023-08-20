@@ -1,5 +1,4 @@
 import * as RadixToast from "@radix-ui/react-toast"
-import { produce } from "immer"
 import { createContext, useContext, useMemo } from "react"
 import Toast from "./toast"
 import { MessageType } from "./types"
@@ -28,20 +27,11 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   const [messages, setMessages] = useState<Message[]>([])
 
   const onMessageClose = useCallback((id: string) => {
-    setMessages(produce((draft) => draft.filter((message) => message.id !== id)))
+    setMessages((msg) => msg.filter((m) => m.id !== id))
   }, [])
 
   const appendMessage = useCallback((type: MessageType, title: string, config?: MessageConfig) => {
-    setMessages(
-      produce((draft) => {
-        draft.push({
-          ...config,
-          type,
-          title,
-          id: Date.now().toString(),
-        })
-      }),
-    )
+    setMessages((msg) => [...msg, { ...config, type, title, id: Date.now().toString() }])
   }, [])
 
   const value = useMemo(
@@ -76,7 +66,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
             onClose={() => onMessageClose(message.id)}
           />
         ))}
-        <RadixToast.Viewport className="fixed right-0 bottom-0 flex flex-col gap-unit-sm w-[372px] p-unit-md" />
+        <RadixToast.Viewport className="fixed right-0 bottom-0 flex flex-col gap-unit-sm w-[372px] p-unit-md z-[999]" />
       </RadixToast.Provider>
     </Context.Provider>
   )
