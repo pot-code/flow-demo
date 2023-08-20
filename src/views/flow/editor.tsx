@@ -11,7 +11,7 @@ export default function Editor() {
 
   return (
     <div className="h-screen w-screen flex flex-col">
-      <nav className="flex justify-between items-center px-unit-xl h-12 border-b-1">
+      <nav className="flex justify-between items-center px-unit-xl h-12 border-b-1 bg-background border-divider">
         <Button isIconOnly size="sm" variant="light">
           <ArrowLeft />
         </Button>

@@ -25,7 +25,9 @@ setup().then(() =>
     <QueryClientProvider client={queryClient}>
       <React.StrictMode>
         <NextUIProvider>
-          <App />
+          <main>
+            <App />
+          </main>
         </NextUIProvider>
       </React.StrictMode>
     </QueryClientProvider>,

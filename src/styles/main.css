@@ -37,5 +37,13 @@ a {
 .react-flow .react-flow__handle {
   height: 8px;
   width: 8px;
-  @apply border-transparent;
+  @apply border-transparent bg-foreground-400;
+}
+
+.react-flow__background {
+  @apply bg-background;
+}
+
+.react-flow__background circle {
+  @apply fill-foreground-400;
 }
