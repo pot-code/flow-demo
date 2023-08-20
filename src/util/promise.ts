@@ -13,10 +13,7 @@ export function delayedPromise<T extends any[], R>(ms: number, fn: (...args: T) 
       }),
       sleep(ms),
     ])
-    if (error) {
-      // eslint-disable-next-line @typescript-eslint/no-throw-literal
-      throw error
-    }
-    return v
+    if (error) return Promise.reject(error)
+    return v as R
   }
 }
