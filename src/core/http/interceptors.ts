@@ -11,24 +11,26 @@ export function captureBusinessError(res: AxiosResponse) {
   return res
 }
 
-export function handleRejection(err: any) {
-  if (axios.isCancel(err)) {
+export function handleRejection(error: any) {
+  if (axios.isCancel(error)) {
     return Promise.resolve()
   }
 
-  if (err.data) {
-    const { data } = err as AxiosResponse<HttpResponse<null>>
+  let httpError
+  if (error.data) {
+    const { data } = error as AxiosResponse<HttpResponse<null>>
     const { msg, code } = data
-    HttpErrorStream.next(new HttpError(msg || "", code))
-  } else if (err.response) {
-    const { msg, code } = err.response.data as HttpResponse<null>
-    HttpErrorStream.next(new HttpError(msg || "", code))
-  } else if (err.request) {
-    HttpErrorStream.next(new HttpError("请求超时" || "", -1))
-  } else if (err instanceof Error) {
-    HttpErrorStream.next(HttpError.fromError(err))
+    httpError = new HttpError(msg || "", code)
+  } else if (error.response) {
+    const { msg, code } = error.response.data as HttpResponse<null>
+    httpError = new HttpError(msg || "", code)
+  } else if (error.request) {
+    httpError = new HttpError("请求超时" || "", -1)
+  } else if (error instanceof Error) {
+    httpError = HttpError.fromError(error)
   } else {
-    HttpErrorStream.next(new HttpError("未知错误" || "", -1))
+    httpError = new HttpError("未知错误" || "", -1)
   }
-  return Promise.reject(err)
+  HttpErrorStream.next(httpError)
+  return Promise.reject(httpError)
 }
