@@ -2,28 +2,17 @@ import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader
 import { useMutation } from "@tanstack/react-query"
 import { useForm } from "react-hook-form"
 import { LoginData, authApi } from "@/api/auth"
-import bg from "@/assets/image/login_bg.jpg"
-import { useToast } from "@/components/toast"
+import bg from "@/assets/image/login_bg.webp"
 import { Time } from "@/util/duration"
 import { delayedPromise } from "@/util/promise"
 
 export default function Login() {
-  const toast = useToast()
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginData>({
-    defaultValues: {
-      username: "",
-      password: "",
-    },
-  })
-  const login = useMutation(delayedPromise(1 * Time.Second, authApi.login), {
-    onError(err: Error) {
-      toast.error(err.message)
-    },
-  })
+  } = useForm<LoginData>()
+  const login = useMutation(delayedPromise(1 * Time.Second, authApi.login))
 
   const onSubmit = useCallback(
     (data: LoginData) => {
@@ -41,7 +30,7 @@ export default function Login() {
             <ModalBody>
               <div className="space-y-unit-sm">
                 <Input
-                  label="Username"
+                  label="用户名"
                   labelPlacement="outside"
                   variant="bordered"
                   placeholder="Enter your Username/Mobile"
@@ -52,7 +41,7 @@ export default function Login() {
                 />
                 <Input
                   type="password"
-                  label="Password"
+                  label="密码"
                   labelPlacement="outside"
                   variant="bordered"
                   placeholder="Enter your Password"
