@@ -1,6 +1,6 @@
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react"
-import { ArrowLeft, Plus } from "@phosphor-icons/react"
-import ReactFlow, { Background, BackgroundVariant, Controls, Edge, MarkerType, MiniMap, Node, Panel } from "reactflow"
+import { Plus } from "@phosphor-icons/react"
+import ReactFlow, { Background, BackgroundVariant, Controls, Edge, MarkerType, Node, Panel } from "reactflow"
 import { getNodeTypes } from "../nodes"
 import useFlowGraph from "./use-flow-graph"
 
@@ -62,9 +62,6 @@ export default forwardRef<FlowGraphRef, FlowGraphProps>(({ initialNodes = [], in
     >
       <Panel position="top-left">
         <div className="flex flex-col gap-unit-sm">
-          <Button isIconOnly variant="faded">
-            <ArrowLeft />
-          </Button>
           <Dropdown>
             <DropdownTrigger>
               <Button isIconOnly color="primary" variant="shadow">
@@ -80,7 +77,6 @@ export default forwardRef<FlowGraphRef, FlowGraphProps>(({ initialNodes = [], in
           </Dropdown>
         </div>
       </Panel>
-      <MiniMap position="top-right" />
       <Controls />
       <Background variant={BackgroundVariant.Dots} />
     </ReactFlow>
