@@ -15,7 +15,7 @@ import { newNodeId } from "../nodes"
 import { useDataFlowContext } from "./context"
 import useViewportCoordinate from "./use-viewport-coordinate"
 
-export default function useFlowGraph() {
+export default function useGraph() {
   const [nodes, setNodes] = useState<Node[]>([])
   const [edges, setEdges] = useState<Edge[]>([])
 

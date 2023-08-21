@@ -4,7 +4,7 @@ import { isEmpty } from "lodash-es"
 import { graphApi } from "@/api/flow"
 import { Time } from "@/util/duration"
 import { delayedPromise } from "@/util/promise"
-import { FlowGraphRef } from "./flow-graph"
+import { FlowGraphRef } from "./graph"
 import { useToast } from "@/components/toast"
 
 const defaultGraphName = "Untitled"

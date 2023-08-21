@@ -2,7 +2,7 @@ import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@
 import { Plus } from "@phosphor-icons/react"
 import ReactFlow, { Background, BackgroundVariant, Controls, Edge, MarkerType, Node, Panel } from "reactflow"
 import { getNodeTypes } from "../nodes"
-import useFlowGraph from "./use-flow-graph"
+import useGraph from "./use-graph"
 
 const nodeTypes = getNodeTypes()
 
@@ -18,7 +18,7 @@ interface FlowGraphProps {
 
 export default forwardRef<FlowGraphRef, FlowGraphProps>(({ initialNodes = [], initialEdges = [] }, ref) => {
   const { graphRef, nodes, edges, setEdges, setNodes, onNodesChange, onEdgesChange, onConnect, onAddNode, onAddEdge } =
-    useFlowGraph()
+    useGraph()
 
   useImperativeHandle(ref, () => ({
     getNodes() {
