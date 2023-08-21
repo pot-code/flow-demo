@@ -2,7 +2,7 @@ import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Spinn
 import { ArrowLeft } from "@phosphor-icons/react"
 import { ReactFlowProvider } from "reactflow"
 import DataFlowProvider from "@/features/flow/editor/context"
-import FlowGraph from "@/features/flow/editor/flow-graph"
+import FlowGraph from "@/features/flow/editor/graph"
 import NameInput from "@/features/flow/editor/name-input"
 import useEditor from "@/features/flow/editor/use-editor"
 
