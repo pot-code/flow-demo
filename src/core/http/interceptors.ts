@@ -6,6 +6,8 @@ import type { HttpResponse } from "./types"
 export function captureBusinessError(res: AxiosResponse) {
   const { code } = res.data
   if (code && code !== 200) {
+    const { msg } = res.data
+    HttpErrorStream.next(new HttpError(msg || "", code))
     return Promise.reject(res)
   }
   return res
@@ -17,11 +19,7 @@ export function handleRejection(error: any) {
   }
 
   let httpError
-  if (error.data) {
-    const { data } = error as AxiosResponse<HttpResponse<null>>
-    const { msg, code } = data
-    httpError = new HttpError(msg || "", code)
-  } else if (error.response) {
+  if (error.response) {
     const { msg, code } = error.response.data as HttpResponse<null>
     httpError = new HttpError(msg || "", code)
   } else if (error.request) {
