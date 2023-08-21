@@ -1,25 +1,28 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 export interface NameInputProps {
-  defaultValue: string
-  onBlur?: (value: string) => void
+  value: string
+  onChange?: (value: string) => void
 }
 
-export default forwardRef<HTMLInputElement, NameInputProps>(({ defaultValue, ...rest }, ref) => {
+export default memo<NameInputProps>(({ value, onChange }) => {
+  const domRef = useRef<HTMLDivElement>(null)
+
   const onKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.currentTarget.blur()
     }
   }, [])
+
   const onBlur = useCallback(
     (e: React.FocusEvent<HTMLDivElement>) => {
-      if (e.currentTarget.textContent === "") {
-        e.currentTarget.textContent = defaultValue
-        rest.onBlur?.(defaultValue)
-      }
-      rest.onBlur?.(e.currentTarget.textContent as string)
+      onChange?.(e.currentTarget.textContent as string)
     },
-    [defaultValue, rest],
+    [onChange],
   )
+
+  useEffect(() => {
+    if (domRef.current) domRef.current.textContent = value
+  }, [value])
 
   // why nest div in div?
   // https://stackoverflow.com/questions/34354085/clicking-outside-a-contenteditable-div-stills-give-focus-to-it
@@ -28,12 +31,12 @@ export default forwardRef<HTMLInputElement, NameInputProps>(({ defaultValue, ...
       <div
         contentEditable
         suppressContentEditableWarning
-        className="outline-none whitespace-pre text-foreground"
-        ref={ref}
+        className="outline-none whitespace-pre text-foreground-500 focus:text-foreground"
+        ref={domRef}
         onKeyDown={onKeyDown}
         onBlur={onBlur}
       >
-        {defaultValue}
+        {value}
       </div>
     </div>
   )
