@@ -1,8 +1,8 @@
 import React from "react"
 import { RouteObject } from "react-router-dom"
 import Login from "@/views/login"
-import FlowEditor from "../views/flow/editor"
-import Dashboard from "@/views/flow/dashboard"
+import Dashboard from "@/views/dashboard"
+import FlowEditor from "@/views/flow/editor"
 
 export const routes: RouteObject[] = [
   {
@@ -10,7 +10,7 @@ export const routes: RouteObject[] = [
     element: React.createElement(FlowEditor),
   },
   {
-    path: "/flow/dashboard",
+    path: "/dashboard",
     element: React.createElement(Dashboard),
   },
   {

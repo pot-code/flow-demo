@@ -6,7 +6,7 @@ import FlowGraph from "@/features/flow/editor/graph"
 import NameInput from "@/features/flow/editor/name-input"
 import useEditor from "@/features/flow/editor/use-editor"
 
-export default function Editor() {
+export default function FlowEditor() {
   const { isSaving, isLoadingData, graphName, nodes, edges, graphRef, saveGraph, onChangeGraphName } = useEditor()
 
   return (
