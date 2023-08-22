@@ -17,7 +17,7 @@ export default function useEditor() {
   const flowId = useParams().flowId as string
   const toast = useToast()
   const graphRef = useRef<FlowGraphRef>(null)
-  const queryFlow = useQuery(
+  const flowQuery = useQuery(
     ["flow", flowId],
     () => delayedPromise(0.5 * Time.Second, flowApi.getByID)(flowId).then((res) => res.data.data),
     {
@@ -52,22 +52,22 @@ export default function useEditor() {
   }
 
   useEffect(() => {
-    if (queryFlow.data) {
-      if (queryFlow.data.nodes) setNodes(JSON.parse(queryFlow.data.nodes))
-      if (queryFlow.data.edges) setEdges(JSON.parse(queryFlow.data.edges))
-      setGraphName(queryFlow.data.name)
+    if (flowQuery.data) {
+      if (flowQuery.data.nodes) setNodes(JSON.parse(flowQuery.data.nodes))
+      if (flowQuery.data.edges) setEdges(JSON.parse(flowQuery.data.edges))
+      setGraphName(flowQuery.data.name)
     }
-  }, [queryFlow.data])
+  }, [flowQuery.data])
 
   useEffect(() => {
-    if (queryFlow.isError) {
+    if (flowQuery.isError) {
       toast.error("加载失败")
     }
-  }, [queryFlow.isError, toast])
+  }, [flowQuery.isError, toast])
 
   return {
     isSaving: updateFlow.isLoading,
-    isLoadingData: queryFlow.isFetching,
+    isLoadingData: flowQuery.isFetching,
     graphName,
     nodes,
     edges,
