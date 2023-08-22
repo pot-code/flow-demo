@@ -8,8 +8,10 @@ import { HttpError } from "@/core/http/error"
 export default function useFlowList() {
   const toast = useToast()
   const navigate = useNavigate()
-  const listGraphQuery = useQuery(["flow-list"], () => flowApi.list().then((res) => res.data.data))
-  const createGraphMutation = useMutation(delayedPromise(1 * Time.Second, flowApi.create), {
+  const listGraphQuery = useQuery(["flow-list"], () =>
+    delayedPromise(1 * Time.Second, flowApi.list)().then((res) => res.data.data),
+  )
+  const createGraphMutation = useMutation(delayedPromise(3 * Time.Second, flowApi.create), {
     onSuccess: ({ data: { data } }) => {
       if (data) navigate(`/flow/${data.id}`)
     },

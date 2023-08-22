@@ -10,7 +10,7 @@ function LoadingState({ count = 3 }: { count?: number }) {
         .map((_, index) => (
           <Card key={index}>
             <CardHeader>
-              <Skeleton className="h-6 w-[96px] rounded-lg" />
+              <Skeleton className="h-6 my-1 w-[96px] rounded-lg" />
             </CardHeader>
             <CardFooter>
               <Skeleton className="h-5 w-full rounded-lg" />
