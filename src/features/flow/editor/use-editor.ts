@@ -17,11 +17,13 @@ export default function useEditor() {
   const flowId = useParams().flowId as string
   const toast = useToast()
   const graphRef = useRef<FlowGraphRef>(null)
-  const queryFlow = useQuery({
-    enabled: Boolean(flowId),
-    queryKey: ["flow", flowId],
-    queryFn: () => delayedPromise(0.5 * Time.Second, flowApi.getByID)(flowId).then((res) => res.data.data),
-  })
+  const queryFlow = useQuery(
+    ["flow", flowId],
+    () => delayedPromise(0.5 * Time.Second, flowApi.getByID)(flowId).then((res) => res.data.data),
+    {
+      enabled: Boolean(flowId),
+    },
+  )
   const updateFlow = useMutation(delayedPromise(0.5 * Time.Second, flowApi.update), {
     onSuccess: () => {
       toast.success("保存成功")
