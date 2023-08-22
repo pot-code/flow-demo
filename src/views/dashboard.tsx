@@ -15,11 +15,35 @@ import {
   User,
 } from "@nextui-org/react"
 import { GridFour, List, MagnifyingGlass, Plus } from "@phosphor-icons/react"
+import { useMutation } from "@tanstack/react-query"
+import { flowApi } from "@/api/flow"
+import { useToast } from "@/components/toast"
+import { HttpError } from "@/core/http/error"
 import FlowList from "@/features/dashboard/flow-list"
-import useFlowList from "@/features/dashboard/use-flow-list"
+import useDashboard from "@/features/dashboard/use-dashboard"
+import { Time } from "@/util/duration"
+import { delayedPromise } from "@/util/promise"
 
 export default function Dashboard() {
-  const { isLoadingGraph, isCreatingGraph, graphList, createGraph } = useFlowList()
+  const toast = useToast()
+  const navigate = useNavigate()
+  const createGraphMutation = useMutation(delayedPromise(3 * Time.Second, flowApi.create), {
+    onSuccess: ({ data: { data } }) => {
+      if (data) navigate(`/flow/${data.id}`)
+    },
+    onError: (err: HttpError) => {
+      toast.error("创建失败", {
+        description: err.message,
+      })
+    },
+  })
+  const { isLoadingGraph, graphList } = useDashboard()
+
+  const createGraph = useCallback(() => {
+    createGraphMutation.mutate({
+      name: "Untitled",
+    })
+  }, [createGraphMutation])
 
   return (
     <div className="flex flex-col h-screen">
@@ -53,7 +77,7 @@ export default function Dashboard() {
           <FlowList isLoading={isLoadingGraph} data={graphList} />
         </div>
       </main>
-      <Modal hideCloseButton size="xs" isOpen={isCreatingGraph}>
+      <Modal hideCloseButton size="xs" isOpen={createGraphMutation.isLoading}>
         <ModalContent>
           <ModalHeader>创建中</ModalHeader>
           <ModalBody>

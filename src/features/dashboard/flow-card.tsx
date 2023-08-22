@@ -12,11 +12,14 @@ import dayjs from "dayjs"
 import { DotsThree } from "@phosphor-icons/react"
 
 export interface FlowCardProps {
+  id: string
   name: string
   createdAt: string
+  onEdit?: (id: string) => void
+  onDelete?: (id: string) => void
 }
 
-export default memo(({ name, createdAt }: FlowCardProps) => {
+export default memo(({ id, name, createdAt, onEdit, onDelete }: FlowCardProps) => {
   return (
     <Card isHoverable shadow="sm">
       <CardHeader className="justify-between">
@@ -28,8 +31,10 @@ export default memo(({ name, createdAt }: FlowCardProps) => {
             </Button>
           </DropdownTrigger>
           <DropdownMenu>
-            <DropdownItem key="edit">Edit</DropdownItem>
-            <DropdownItem key="delete" className="text-danger" color="danger">
+            <DropdownItem key="edit" onClick={() => onEdit?.(id)}>
+              Edit
+            </DropdownItem>
+            <DropdownItem key="delete" className="text-danger" color="danger" onClick={() => onDelete?.(id)}>
               Delete
             </DropdownItem>
           </DropdownMenu>
