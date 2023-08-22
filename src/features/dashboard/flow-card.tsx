@@ -8,7 +8,7 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/react"
-import { Clock, DotsThree } from "@phosphor-icons/react"
+import { DotsThree } from "@phosphor-icons/react"
 
 export interface FlowCardProps {
   name: string
@@ -17,7 +17,7 @@ export interface FlowCardProps {
 
 export default function FlowCard({ name, updatedAt }: FlowCardProps) {
   return (
-    <Card isHoverable className="max-w-[296px]" shadow="sm">
+    <Card isHoverable shadow="sm">
       <CardHeader className="justify-between">
         <p>{name}</p>
         <Dropdown>
@@ -34,14 +34,8 @@ export default function FlowCard({ name, updatedAt }: FlowCardProps) {
           </DropdownMenu>
         </Dropdown>
       </CardHeader>
-      <CardFooter className="flex text-sm text-foreground-500 justify-between">
-        <p>Updated:</p>
-        <p className="flex items-center">
-          <i className="mr-unit-xs">
-            <Clock weight="duotone" />
-          </i>
-          <span>{updatedAt}</span>
-        </p>
+      <CardFooter>
+        <p className="text-sm text-foreground-500">{updatedAt}</p>
       </CardFooter>
     </Card>
   )

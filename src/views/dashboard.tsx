@@ -32,7 +32,7 @@ export default function Dashboard() {
               </Tabs>
             </div>
           </section>
-          <section className="grid grid-cols-4 gap-unit-md">
+          <section className="grid grid-cols-3 laptop:grid-cols-4 monitor-2k:grid-cols-6 monitor-4k:grid-cols-8 gap-unit-md">
             <FlowCard name="demo" updatedAt="2022-01-01 11:01:00" />
             <FlowCard name="demo" updatedAt="2022-02-01 12:11:00" />
             <FlowCard name="demo" updatedAt="2022-03-01 17:23:00" />
