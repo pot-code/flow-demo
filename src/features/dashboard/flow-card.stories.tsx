@@ -6,17 +6,17 @@ type Story = StoryObj<typeof FlowCard>
 export const Basic: Story = {
   args: {
     name: "demo",
-    updatedAt: "2022-01-01 00:00:00",
+    createdAt: "2022-01-01 00:00:00",
   },
 }
 
 export const Grid: Story = {
   render: () => (
     <div className="grid grid-cols-4 gap-unit-sm">
-      <FlowCard name="demo" updatedAt="2022-01-01 00:00:00" />
-      <FlowCard name="demo" updatedAt="2022-01-01 00:00:00" />
-      <FlowCard name="demo" updatedAt="2022-01-01 00:00:00" />
-      <FlowCard name="demo" updatedAt="2022-01-01 00:00:00" />
+      <FlowCard name="demo" createdAt="2022-01-01 00:00:00" />
+      <FlowCard name="demo" createdAt="2022-01-01 00:00:00" />
+      <FlowCard name="demo" createdAt="2022-01-01 00:00:00" />
+      <FlowCard name="demo" createdAt="2022-01-01 00:00:00" />
     </div>
   ),
 }

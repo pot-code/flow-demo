@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { Edge, Node } from "reactflow"
 import { isEmpty } from "lodash-es"
-import { graphApi } from "@/api/flow"
+import { flowApi } from "@/api/flow"
 import { Time } from "@/util/duration"
 import { delayedPromise } from "@/util/promise"
 import { FlowGraphRef } from "./graph"
@@ -20,9 +20,9 @@ export default function useEditor() {
   const queryFlow = useQuery({
     enabled: Boolean(flowId),
     queryKey: ["flow", flowId],
-    queryFn: () => delayedPromise(0.5 * Time.Second, graphApi.getByID)(flowId).then((res) => res.data.data),
+    queryFn: () => delayedPromise(0.5 * Time.Second, flowApi.getByID)(flowId).then((res) => res.data.data),
   })
-  const updateFlow = useMutation(delayedPromise(0.5 * Time.Second, graphApi.update), {
+  const updateFlow = useMutation(delayedPromise(0.5 * Time.Second, flowApi.update), {
     onSuccess: () => {
       toast.success("保存成功")
     },

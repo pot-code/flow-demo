@@ -12,10 +12,10 @@ import { DotsThree } from "@phosphor-icons/react"
 
 export interface FlowCardProps {
   name: string
-  updatedAt: string
+  createdAt: string
 }
 
-export default function FlowCard({ name, updatedAt }: FlowCardProps) {
+export default function FlowCard({ name, createdAt }: FlowCardProps) {
   return (
     <Card isHoverable shadow="sm">
       <CardHeader className="justify-between">
@@ -35,7 +35,7 @@ export default function FlowCard({ name, updatedAt }: FlowCardProps) {
         </Dropdown>
       </CardHeader>
       <CardFooter>
-        <p className="text-sm text-foreground-500">{updatedAt}</p>
+        <p className="text-sm text-foreground-500">{createdAt}</p>
       </CardFooter>
     </Card>
   )
