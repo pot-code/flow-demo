@@ -1,8 +1,26 @@
-import { Button, Input, Navbar, NavbarBrand, NavbarContent, Tab, Tabs, User } from "@nextui-org/react"
+import {
+  Button,
+  Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  Spinner,
+  Tab,
+  Tabs,
+  User,
+} from "@nextui-org/react"
 import { GridFour, List, MagnifyingGlass, Plus } from "@phosphor-icons/react"
-import FlowCard from "@/features/dashboard/flow-card"
+import FlowList from "@/features/dashboard/flow-list"
+import useFlowList from "@/features/dashboard/use-flow-list"
 
 export default function Dashboard() {
+  const { isLoadingGraph, isCreatingGraph, graphList, createGraph } = useFlowList()
+
   return (
     <div className="flex flex-col h-screen">
       <Navbar isBordered>
@@ -21,8 +39,8 @@ export default function Dashboard() {
         <div className="h-full w-[320px] border-r-1" />
         <div className="flex-1 p-unit-lg">
           <section className="flex mb-unit-lg justify-between">
-            <Button color="primary" startContent={<Plus />}>
-              New Graph
+            <Button color="primary" startContent={<Plus />} onClick={createGraph}>
+              New Flow
             </Button>
             <div className="flex gap-unit-sm">
               <Input variant="bordered" startContent={<MagnifyingGlass />} />
@@ -32,18 +50,18 @@ export default function Dashboard() {
               </Tabs>
             </div>
           </section>
-          <section className="grid grid-cols-3 laptop:grid-cols-4 monitor-2k:grid-cols-6 monitor-4k:grid-cols-8 gap-unit-md">
-            <FlowCard name="demo" updatedAt="2022-01-01 11:01:00" />
-            <FlowCard name="demo" updatedAt="2022-02-01 12:11:00" />
-            <FlowCard name="demo" updatedAt="2022-03-01 17:23:00" />
-            <FlowCard name="demo" updatedAt="2022-04-01 13:08:00" />
-            <FlowCard name="demo" updatedAt="2022-05-01 18:09:00" />
-            <FlowCard name="demo" updatedAt="2022-06-01 14:10:00" />
-            <FlowCard name="demo" updatedAt="2022-07-01 10:40:00" />
-            <FlowCard name="demo" updatedAt="2022-08-01 11:37:00" />
-          </section>
+          <FlowList isLoading={isLoadingGraph} data={graphList} />
         </div>
       </main>
+      <Modal hideCloseButton size="xs" isOpen={isCreatingGraph}>
+        <ModalContent>
+          <ModalHeader>创建中</ModalHeader>
+          <ModalBody>
+            <Spinner />
+          </ModalBody>
+          <ModalFooter className="justify-center text-sm text-gray-500">请稍等...</ModalFooter>
+        </ModalContent>
+      </Modal>
     </div>
   )
 }
