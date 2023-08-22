@@ -8,6 +8,7 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/react"
+import dayjs from "dayjs"
 import { DotsThree } from "@phosphor-icons/react"
 
 export interface FlowCardProps {
@@ -15,7 +16,7 @@ export interface FlowCardProps {
   createdAt: string
 }
 
-export default function FlowCard({ name, createdAt }: FlowCardProps) {
+export default memo(({ name, createdAt }: FlowCardProps) => {
   return (
     <Card isHoverable shadow="sm">
       <CardHeader className="justify-between">
@@ -35,8 +36,8 @@ export default function FlowCard({ name, createdAt }: FlowCardProps) {
         </Dropdown>
       </CardHeader>
       <CardFooter>
-        <p className="text-sm text-foreground-500">{createdAt}</p>
+        <p className="text-sm text-foreground-500">{dayjs(createdAt).format("YYYY-MM-DD HH:mm:ss")}</p>
       </CardFooter>
     </Card>
   )
-}
+})

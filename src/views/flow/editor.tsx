@@ -7,12 +7,13 @@ import NameInput from "@/features/flow/editor/name-input"
 import useEditor from "@/features/flow/editor/use-editor"
 
 export default function FlowEditor() {
+  const navigate = useNavigate()
   const { isSaving, isLoadingData, graphName, nodes, edges, graphRef, saveGraph, onChangeGraphName } = useEditor()
 
   return (
     <div className="h-screen w-screen flex flex-col">
       <nav className="flex justify-between items-center px-unit-xl h-12 border-b-1 bg-background border-divider">
-        <Button isIconOnly size="sm" variant="light">
+        <Button isIconOnly size="sm" variant="light" onClick={() => navigate(-1)}>
           <ArrowLeft />
         </Button>
         <NameInput value={graphName} onChange={onChangeGraphName} />
