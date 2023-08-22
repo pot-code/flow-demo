@@ -7,12 +7,17 @@ import { Time } from "@/util/duration"
 import { delayedPromise } from "@/util/promise"
 
 export default function Login() {
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginData>()
-  const login = useMutation(delayedPromise(1 * Time.Second, authApi.login))
+  const login = useMutation(delayedPromise(1 * Time.Second, authApi.login), {
+    onSuccess: () => {
+      navigate("/dashboard")
+    },
+  })
 
   const onSubmit = useCallback(
     (data: LoginData) => {
