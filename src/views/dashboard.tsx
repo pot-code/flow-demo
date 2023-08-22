@@ -15,6 +15,7 @@ import {
   User,
 } from "@nextui-org/react"
 import { GridFour, List, MagnifyingGlass, Plus } from "@phosphor-icons/react"
+import { motion } from "framer-motion"
 import FlowList from "@/features/dashboard/flow-list"
 import useDashboard from "@/features/dashboard/use-dashboard"
 
@@ -35,8 +36,13 @@ export default function Dashboard() {
           />
         </NavbarContent>
       </Navbar>
-      <main className="flex h-full">
-        <div className="h-full w-[320px] border-r-1" />
+      <main className="flex h-full relative">
+        <div className="h-full w-[320px]" />
+        <motion.div
+          drag="x"
+          className="absolute h-full w-[1px] bg-divider right-0 hover:w-[4px] hover:bg-primary-400 hover:cursor-col-resize"
+          style={{ left: 320 }}
+        />
         <div className="flex-1 p-unit-lg">
           <section className="flex mb-unit-lg justify-between">
             <Button color="primary" startContent={<Plus />} onClick={createGraph}>
@@ -62,7 +68,7 @@ export default function Dashboard() {
           <ModalFooter className="justify-center text-sm text-gray-500">请稍等...</ModalFooter>
         </ModalContent>
       </Modal>
-      <Modal hideCloseButton size="xs" isOpen={isRefreshingGraph}>
+      {/* <Modal hideCloseButton size="xs" isOpen={isRefreshingGraph}>
         <ModalContent>
           <ModalHeader>加载中</ModalHeader>
           <ModalBody>
@@ -70,7 +76,7 @@ export default function Dashboard() {
           </ModalBody>
           <ModalFooter className="justify-center text-sm text-gray-500">请稍等...</ModalFooter>
         </ModalContent>
-      </Modal>
+      </Modal> */}
     </div>
   )
 }
