@@ -9,7 +9,7 @@ import {
   DropdownTrigger,
 } from "@nextui-org/react"
 import dayjs from "dayjs"
-import { DotsThree } from "@phosphor-icons/react"
+import { DotsThree, Trash } from "@phosphor-icons/react"
 
 export interface FlowCardProps {
   id: string
@@ -21,7 +21,7 @@ export interface FlowCardProps {
 
 export default memo(({ id, name, createdAt, onEdit, onDelete }: FlowCardProps) => {
   return (
-    <Card isHoverable shadow="sm">
+    <Card isHoverable isPressable as="div" shadow="sm" onPress={() => onEdit?.(id)}>
       <CardHeader className="justify-between">
         <p>{name}</p>
         <Dropdown>
@@ -31,10 +31,13 @@ export default memo(({ id, name, createdAt, onEdit, onDelete }: FlowCardProps) =
             </Button>
           </DropdownTrigger>
           <DropdownMenu>
-            <DropdownItem key="edit" onClick={() => onEdit?.(id)}>
-              Edit
-            </DropdownItem>
-            <DropdownItem key="delete" className="text-danger" color="danger" onClick={() => onDelete?.(id)}>
+            <DropdownItem
+              key="delete"
+              className="text-danger"
+              color="danger"
+              startContent={<Trash weight="duotone" />}
+              onClick={() => onDelete?.(id)}
+            >
               Delete
             </DropdownItem>
           </DropdownMenu>

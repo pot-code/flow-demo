@@ -8,7 +8,8 @@ import useEditor from "@/features/flow/editor/use-editor"
 
 export default function FlowEditor() {
   const navigate = useNavigate()
-  const { isSaving, isLoadingData, graphName, nodes, edges, graphRef, saveGraph, onChangeGraphName } = useEditor()
+  const { isSaving, isLoadingFlow, isRefreshing, graphName, nodes, edges, graphRef, saveGraph, onChangeGraphName } =
+    useEditor()
 
   return (
     <div className="h-screen w-screen flex flex-col">
@@ -26,7 +27,7 @@ export default function FlowEditor() {
       <div className="flex-grow flex">
         <DataFlowProvider>
           <ReactFlowProvider>
-            <FlowGraph ref={graphRef} initialNodes={nodes} initialEdges={edges} />
+            <FlowGraph ref={graphRef} isRefreshing={isRefreshing} initialNodes={nodes} initialEdges={edges} />
           </ReactFlowProvider>
         </DataFlowProvider>
       </div>
@@ -39,7 +40,7 @@ export default function FlowEditor() {
           <ModalFooter className="justify-center text-sm text-gray-500">请稍等...</ModalFooter>
         </ModalContent>
       </Modal>
-      <Modal hideCloseButton size="xs" isOpen={isLoadingData}>
+      <Modal hideCloseButton size="xs" isOpen={isLoadingFlow}>
         <ModalContent>
           <ModalHeader>载入中</ModalHeader>
           <ModalBody>

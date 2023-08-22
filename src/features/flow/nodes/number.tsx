@@ -17,6 +17,10 @@ export default memo<NodeProps>(({ id, isConnectable, data }) => {
     setNodeData({ value })
   }, [setNodeData, value])
 
+  const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value || 0)
+  }, [])
+
   useEffect(() => {
     dataSource.publish(data.value)
   }, [data.value, dataSource])
@@ -34,7 +38,7 @@ export default memo<NodeProps>(({ id, isConnectable, data }) => {
             variant="bordered"
             placeholder="请输入数字"
             value={value}
-            onChange={(e) => setValue(e.target.value)}
+            onChange={onChange}
             onBlur={onBlur}
           />
         </CardBody>

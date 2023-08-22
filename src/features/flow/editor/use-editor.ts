@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Edge, Node } from "reactflow"
 import { isEmpty } from "lodash-es"
 import { flowApi } from "@/api/flow"
@@ -17,6 +17,7 @@ export default function useEditor() {
   const flowId = useParams().flowId as string
   const toast = useToast()
   const graphRef = useRef<FlowGraphRef>(null)
+  const queryClient = useQueryClient()
   const flowQuery = useQuery(
     ["flow", flowId],
     () => delayedPromise(0.5 * Time.Second, flowApi.getByID)(flowId).then((res) => res.data.data),
@@ -27,6 +28,7 @@ export default function useEditor() {
   const updateFlow = useMutation(delayedPromise(0.5 * Time.Second, flowApi.update), {
     onSuccess: () => {
       toast.success("保存成功")
+      queryClient.invalidateQueries(["flow", flowId])
     },
     onError: () => {
       toast.error("保存失败")
@@ -67,7 +69,8 @@ export default function useEditor() {
 
   return {
     isSaving: updateFlow.isLoading,
-    isLoadingData: flowQuery.isFetching,
+    isLoadingFlow: flowQuery.isLoading,
+    isRefreshing: flowQuery.isRefetching,
     graphName,
     nodes,
     edges,
