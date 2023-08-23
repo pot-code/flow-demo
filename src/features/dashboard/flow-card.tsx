@@ -23,7 +23,7 @@ export default memo(({ id, name, createdAt, onEdit, onDelete }: FlowCardProps) =
   return (
     <Card isHoverable isPressable as="div" shadow="sm" onPress={() => onEdit?.(id)}>
       <CardHeader className="justify-between">
-        <p>{name}</p>
+        <p className="flex-1 text-ellipsis overflow-hidden whitespace-nowrap">{name}</p>
         <Dropdown>
           <DropdownTrigger>
             <Button isIconOnly size="sm" variant="light">
