@@ -53,7 +53,7 @@ export default function Dashboard() {
           style={{ left: 320, x: dragX }}
           className={`
           absolute h-full w-[1px] bg-divider right-0
-          hover:w-[4px] hover:bg-primary-300 hover:cursor-col-resize
+          hover:w-[4px] hover:bg-primary-200 hover:cursor-col-resize
           active:w-[4px] active:bg-primary-400 active:cursor-col-resize
           transition-colors duration-300`}
         />

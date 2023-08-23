@@ -34,11 +34,7 @@ function LoadingState({ count = 3 }: { count?: number }) {
 }
 
 function EmptyData() {
-  return (
-    <Card shadow="none">
-      <CardHeader className="text-foreground-500">No Data</CardHeader>
-    </Card>
-  )
+  return <p className="text-center text-foreground-500">No Data</p>
 }
 
 export interface FlowListProps {
