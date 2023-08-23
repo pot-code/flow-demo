@@ -37,7 +37,6 @@ export default function Dashboard() {
           dragElastic={0}
           dragMomentum={false}
           dragConstraints={{ left: 0, right: 100 }}
-          transition={{ type: "just" }}
           style={{ left: sidebarWidth, x: dragX }}
           className={`
           absolute h-full w-[1px] bg-divider right-0

@@ -15,7 +15,6 @@ export default function useFlowListQuery(enabled = true) {
     () => delayedPromise(0.3 * Time.Second, flowApi.list)().then((res) => res.data.data),
     {
       enabled,
-      staleTime: 3 * Time.Minute,
     },
   )
 
