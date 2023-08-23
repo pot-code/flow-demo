@@ -11,7 +11,6 @@ import {
   applyNodeChanges,
   useReactFlow,
 } from "reactflow"
-import { newNodeId } from "../nodes"
 import { useDataFlowContext } from "./context"
 import useViewportCoordinate from "./use-viewport-coordinate"
 
@@ -27,7 +26,7 @@ export default function useGraph() {
     const [x, y] = offsetToOrigin(getViewportWidth() / 4, getViewportHeight() / 4)
     const node: Node = {
       type,
-      id: newNodeId(),
+      id: Date.now().toString(),
       position: { x, y },
       data: {},
     }
