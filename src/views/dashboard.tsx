@@ -22,10 +22,10 @@ export default function Dashboard() {
         <NavbarBrand>流程设计器</NavbarBrand>
         <NavbarContent justify="end">
           <User
-            name="Jane Doe"
-            description="Product Designer"
+            name="Pot Code"
+            description="Frontend Dev"
             avatarProps={{
-              src: "https://i.pravatar.cc/150?u=a04258114e29026702d",
+              src: "https://avatars.githubusercontent.com/u/17687881?v=4",
             }}
           />
         </NavbarContent>
