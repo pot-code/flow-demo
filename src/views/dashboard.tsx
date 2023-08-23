@@ -5,13 +5,15 @@ import LoadingModal from "@/components/loading-modal"
 import FlowList from "@/features/dashboard/flow-list"
 import useDashboard from "@/features/dashboard/use-dashboard"
 
+const sidebarWidth = 304
+
 export default function Dashboard() {
   const dragX = useMotionValue(0)
   const sidebarRef = useRef<HTMLDivElement>(null)
   const { isCreatingFlow, createFlow } = useDashboard()
 
   useMotionValueEvent(dragX, "change", (x) => {
-    if (sidebarRef.current) sidebarRef.current.style.width = `${x + 320}px`
+    if (sidebarRef.current) sidebarRef.current.style.width = `${x + sidebarWidth}px`
   })
 
   return (
@@ -29,14 +31,14 @@ export default function Dashboard() {
         </NavbarContent>
       </Navbar>
       <main className="flex h-full relative">
-        <div ref={sidebarRef} className="h-full w-[320px]" />
+        <div ref={sidebarRef} className="h-full" style={{ width: sidebarWidth }} />
         <motion.div
           drag="x"
           dragElastic={0}
           dragMomentum={false}
-          dragConstraints={{ left: -100, right: 100 }}
+          dragConstraints={{ left: 0, right: 100 }}
           transition={{ type: "just" }}
-          style={{ left: 320, x: dragX }}
+          style={{ left: sidebarWidth, x: dragX }}
           className={`
           absolute h-full w-[1px] bg-divider right-0
           hover:w-[4px] hover:bg-primary-200 hover:cursor-col-resize
