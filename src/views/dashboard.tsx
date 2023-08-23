@@ -37,12 +37,13 @@ export default function Dashboard() {
           dragElastic={0}
           dragMomentum={false}
           dragConstraints={{ left: 0, right: 100 }}
-          style={{ left: sidebarWidth, x: dragX }}
+          style={{ left: sidebarWidth, x: dragX, transitionProperty: "width, background-color" }}
           className={`
-          absolute h-full w-[1px] bg-divider right-0
-          hover:w-[4px] hover:bg-primary-200 hover:cursor-col-resize
-          active:w-[4px] active:bg-primary-400 active:cursor-col-resize
-          transition-colors duration-300`}
+          absolute h-full w-[1px] px-1 bg-divider right-0 box-content bg-clip-content
+          duration-75 delay-100
+          hover:w-1 hover:bg-primary-200 hover:cursor-col-resize
+          active:w-1 active:bg-primary-400 active:cursor-col-resize
+          `}
         />
         <div className="flex-1 p-unit-lg">
           <section className="flex mb-unit-lg justify-between">
