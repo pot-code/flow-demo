@@ -3,6 +3,7 @@ import http from "@/core/http"
 export const authApi = {
   login: (payload: LoginData) => http.post("/auth/login", payload),
   register: (payload: RegisterData) => http.post("/auth/register", payload),
+  isAuthenticated: () => http.get("/auth/isAuthenticated"),
 }
 
 export interface LoginData {
