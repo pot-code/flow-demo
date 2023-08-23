@@ -1,28 +1,14 @@
-import {
-  Button,
-  Input,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  Spinner,
-  Tab,
-  Tabs,
-  User,
-} from "@nextui-org/react"
+import { Button, Input, Navbar, NavbarBrand, NavbarContent, Tab, Tabs, User } from "@nextui-org/react"
 import { GridFour, List, MagnifyingGlass, Plus } from "@phosphor-icons/react"
 import { motion, useMotionValue, useMotionValueEvent } from "framer-motion"
+import LoadingModal from "@/components/loading-modal"
 import FlowList from "@/features/dashboard/flow-list"
 import useDashboard from "@/features/dashboard/use-dashboard"
 
 export default function Dashboard() {
   const dragX = useMotionValue(0)
   const sidebarRef = useRef<HTMLDivElement>(null)
-  const { isLoadingGraph, isCreatingGraph, isRefreshingGraph, graphList, createGraph } = useDashboard()
+  const { isCreatingGraph, createGraph } = useDashboard()
 
   useMotionValueEvent(dragX, "change", (x) => {
     if (sidebarRef.current) sidebarRef.current.style.width = `${x + 320}px`
@@ -60,7 +46,7 @@ export default function Dashboard() {
         <div className="flex-1 p-unit-lg">
           <section className="flex mb-unit-lg justify-between">
             <Button color="primary" startContent={<Plus />} onClick={createGraph}>
-              New Flow
+              新建流程
             </Button>
             <div className="flex gap-unit-sm">
               <Input variant="bordered" startContent={<MagnifyingGlass />} />
@@ -70,27 +56,10 @@ export default function Dashboard() {
               </Tabs>
             </div>
           </section>
-          <FlowList isLoading={isLoadingGraph} data={graphList} />
+          <FlowList />
         </div>
       </main>
-      <Modal hideCloseButton size="xs" isOpen={isCreatingGraph}>
-        <ModalContent>
-          <ModalHeader>创建中</ModalHeader>
-          <ModalBody>
-            <Spinner />
-          </ModalBody>
-          <ModalFooter className="justify-center text-sm text-gray-500">请稍等...</ModalFooter>
-        </ModalContent>
-      </Modal>
-      <Modal hideCloseButton size="xs" isOpen={isRefreshingGraph}>
-        <ModalContent>
-          <ModalHeader>加载中</ModalHeader>
-          <ModalBody>
-            <Spinner />
-          </ModalBody>
-          <ModalFooter className="justify-center text-sm text-gray-500">请稍等...</ModalFooter>
-        </ModalContent>
-      </Modal>
+      <LoadingModal title="创建中" loading={isCreatingGraph} />
     </div>
   )
 }

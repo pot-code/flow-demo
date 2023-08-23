@@ -1,16 +1,5 @@
-import {
-  Card,
-  CardFooter,
-  CardHeader,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  Skeleton,
-  Spinner,
-} from "@nextui-org/react"
-import { FlowListData } from "@/api/flow"
+import { Card, CardFooter, CardHeader, Skeleton } from "@nextui-org/react"
+import LoadingModal from "@/components/loading-modal"
 import FlowCard from "./flow-card"
 import useFlowList from "./use-flow-list"
 
@@ -37,13 +26,8 @@ function EmptyData() {
   return <p className="text-center text-foreground-500">No Data</p>
 }
 
-export interface FlowListProps {
-  data?: FlowListData[]
-  isLoading?: boolean
-}
-
-export default function FlowList({ isLoading, data }: FlowListProps) {
-  const { deleteFlowMutation, onDeleteFlow, onEditFlow } = useFlowList()
+export default function FlowList() {
+  const { isLoading, isRefreshing, data, deleteFlowMutation, onDeleteFlow, onEditFlow } = useFlowList()
 
   if (isLoading) {
     return <LoadingState />
@@ -65,15 +49,8 @@ export default function FlowList({ isLoading, data }: FlowListProps) {
           onEdit={onEditFlow}
         />
       ))}
-      <Modal hideCloseButton size="xs" isOpen={deleteFlowMutation.isLoading}>
-        <ModalContent>
-          <ModalHeader>删除中</ModalHeader>
-          <ModalBody>
-            <Spinner />
-          </ModalBody>
-          <ModalFooter className="justify-center text-sm text-gray-500">请稍等...</ModalFooter>
-        </ModalContent>
-      </Modal>
+      <LoadingModal title="删除中" loading={deleteFlowMutation.isLoading} />
+      <LoadingModal title="加载中" loading={isRefreshing} />
     </section>
   )
 }

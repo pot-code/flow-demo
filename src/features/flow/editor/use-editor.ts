@@ -6,8 +6,7 @@ import { Time } from "@/util/duration"
 import { delayedPromise } from "@/util/promise"
 import { FlowGraphRef } from "./graph"
 import { useToast } from "@/components/toast"
-
-const defaultGraphName = "Untitled"
+import { DEFAULT_FLOW_NAME } from "../config"
 
 export default function useEditor() {
   const [nodes, setNodes] = useState<Node[]>([])
@@ -49,7 +48,7 @@ export default function useEditor() {
   }
 
   function onChangeGraphName(name: string) {
-    if (isEmpty(name)) setGraphName(defaultGraphName)
+    if (isEmpty(name)) setGraphName(DEFAULT_FLOW_NAME)
     else setGraphName(name)
   }
 
