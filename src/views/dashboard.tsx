@@ -22,7 +22,7 @@ export default function Dashboard() {
         <NavbarBrand>流程设计器</NavbarBrand>
         <NavbarContent justify="end">
           <User
-            name="Pot Code"
+            name="pot code"
             description="Frontend Dev"
             avatarProps={{
               src: "https://avatars.githubusercontent.com/u/17687881?v=4",
