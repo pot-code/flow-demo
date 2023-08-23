@@ -1,6 +1,7 @@
-import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Spinner } from "@nextui-org/react"
+import { Button } from "@nextui-org/react"
 import { ArrowLeft } from "@phosphor-icons/react"
 import { ReactFlowProvider } from "reactflow"
+import LoadingModal from "@/components/loading-modal"
 import DataFlowProvider from "@/features/flow/editor/context"
 import FlowGraph from "@/features/flow/editor/graph"
 import NameInput from "@/features/flow/editor/name-input"
@@ -31,24 +32,8 @@ export default function FlowEditor() {
           </ReactFlowProvider>
         </DataFlowProvider>
       </div>
-      <Modal hideCloseButton size="xs" isOpen={isSaving}>
-        <ModalContent>
-          <ModalHeader>保存中</ModalHeader>
-          <ModalBody>
-            <Spinner />
-          </ModalBody>
-          <ModalFooter className="justify-center text-sm text-gray-500">请稍等...</ModalFooter>
-        </ModalContent>
-      </Modal>
-      <Modal hideCloseButton size="xs" isOpen={isLoadingFlow}>
-        <ModalContent>
-          <ModalHeader>载入中</ModalHeader>
-          <ModalBody>
-            <Spinner />
-          </ModalBody>
-          <ModalFooter className="justify-center text-sm text-gray-500">请稍等...</ModalFooter>
-        </ModalContent>
-      </Modal>
+      <LoadingModal title="保存中" loading={isSaving} />
+      <LoadingModal title="载入中" loading={isLoadingFlow} />
     </div>
   )
 }
