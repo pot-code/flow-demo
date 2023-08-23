@@ -15,12 +15,18 @@ import {
   User,
 } from "@nextui-org/react"
 import { GridFour, List, MagnifyingGlass, Plus } from "@phosphor-icons/react"
-import { motion } from "framer-motion"
+import { motion, useMotionValue, useMotionValueEvent } from "framer-motion"
 import FlowList from "@/features/dashboard/flow-list"
 import useDashboard from "@/features/dashboard/use-dashboard"
 
 export default function Dashboard() {
+  const dragX = useMotionValue(0)
+  const sidebarRef = useRef<HTMLDivElement>(null)
   const { isLoadingGraph, isCreatingGraph, isRefreshingGraph, graphList, createGraph } = useDashboard()
+
+  useMotionValueEvent(dragX, "change", (x) => {
+    if (sidebarRef.current) sidebarRef.current.style.width = `${x + 320}px`
+  })
 
   return (
     <div className="flex flex-col h-screen">
@@ -37,11 +43,19 @@ export default function Dashboard() {
         </NavbarContent>
       </Navbar>
       <main className="flex h-full relative">
-        <div className="h-full w-[320px]" />
+        <div ref={sidebarRef} className="h-full w-[320px]" />
         <motion.div
           drag="x"
-          className="absolute h-full w-[1px] bg-divider right-0 hover:w-[4px] hover:bg-primary-400 hover:cursor-col-resize"
-          style={{ left: 320 }}
+          dragElastic={0}
+          dragMomentum={false}
+          dragConstraints={{ left: -100, right: 100 }}
+          transition={{ type: "just" }}
+          style={{ left: 320, x: dragX }}
+          className={`
+          absolute h-full w-[1px] bg-divider right-0
+          hover:w-[4px] hover:bg-primary-300 hover:cursor-col-resize
+          active:w-[4px] active:bg-primary-400 active:cursor-col-resize
+          transition-colors duration-300`}
         />
         <div className="flex-1 p-unit-lg">
           <section className="flex mb-unit-lg justify-between">
@@ -68,7 +82,7 @@ export default function Dashboard() {
           <ModalFooter className="justify-center text-sm text-gray-500">请稍等...</ModalFooter>
         </ModalContent>
       </Modal>
-      {/* <Modal hideCloseButton size="xs" isOpen={isRefreshingGraph}>
+      <Modal hideCloseButton size="xs" isOpen={isRefreshingGraph}>
         <ModalContent>
           <ModalHeader>加载中</ModalHeader>
           <ModalBody>
@@ -76,7 +90,7 @@ export default function Dashboard() {
           </ModalBody>
           <ModalFooter className="justify-center text-sm text-gray-500">请稍等...</ModalFooter>
         </ModalContent>
-      </Modal> */}
+      </Modal>
     </div>
   )
 }
