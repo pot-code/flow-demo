@@ -4,11 +4,11 @@ import { HttpErrorStream } from "./event"
 import type { HttpResponse } from "./types"
 
 export function captureBusinessError(res: AxiosResponse) {
-  const { code } = res.data
+  const { code, msg } = res.data
   if (code && code !== 200) {
-    const { msg } = res.data
-    HttpErrorStream.next(new HttpError(msg || "", code))
-    return Promise.reject(res)
+    const err = new HttpError(msg || "", code)
+    HttpErrorStream.next(err)
+    return Promise.reject(err)
   }
   return res
 }
