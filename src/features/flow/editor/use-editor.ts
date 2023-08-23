@@ -7,6 +7,7 @@ import { delayedPromise } from "@/util/promise"
 import { GraphRef } from "./graph"
 import { useToast } from "@/components/toast"
 import { DEFAULT_FLOW_NAME } from "../config"
+import { HttpError } from "@/core/http/error"
 
 export default function useEditor() {
   const [nodes, setNodes] = useState<Node[]>([])
@@ -29,8 +30,10 @@ export default function useEditor() {
       toast.success("保存成功")
       queryClient.invalidateQueries(["flow", flowId])
     },
-    onError: () => {
-      toast.error("保存失败")
+    onError: (err: HttpError) => {
+      toast.error("保存失败", {
+        description: err.message,
+      })
     },
   })
 
