@@ -3,9 +3,13 @@ import LoadingModal from "@/components/loading-modal"
 import FlowCard from "./flow-card"
 import useFlowList from "./use-flow-list"
 
+function GridLayout({ children }: { children: React.ReactNode }) {
+  return <div className="grid grid-cols-4 monitor-2k:grid-cols-6 monitor-4k:grid-cols-8 gap-unit-md">{children}</div>
+}
+
 function LoadingState({ count = 3 }: { count?: number }) {
   return (
-    <section className="grid grid-cols-3 laptop:grid-cols-4 monitor-2k:grid-cols-6 monitor-4k:grid-cols-8 gap-unit-md">
+    <GridLayout>
       {Array(count)
         .fill(0)
         .map((_, index) => (
@@ -18,7 +22,7 @@ function LoadingState({ count = 3 }: { count?: number }) {
             </CardFooter>
           </Card>
         ))}
-    </section>
+    </GridLayout>
   )
 }
 
@@ -38,19 +42,21 @@ export default function FlowList() {
   }
 
   return (
-    <section className="grid grid-cols-3 laptop:grid-cols-4 monitor-2k:grid-cols-6 monitor-4k:grid-cols-8 gap-unit-md">
-      {data.map((item) => (
-        <FlowCard
-          key={item.id}
-          id={item.id}
-          name={item.name}
-          createdAt={item.created_at}
-          onDelete={onDeleteFlow}
-          onEdit={onEditFlow}
-        />
-      ))}
+    <>
+      <GridLayout>
+        {data.map((item) => (
+          <FlowCard
+            key={item.id}
+            id={item.id}
+            name={item.name}
+            createdAt={item.created_at}
+            onDelete={onDeleteFlow}
+            onEdit={onEditFlow}
+          />
+        ))}
+      </GridLayout>
       <LoadingModal title="删除中" loading={deleteFlowMutation.isLoading} />
       <LoadingModal title="加载中" loading={isRefreshing} />
-    </section>
+    </>
   )
 }
