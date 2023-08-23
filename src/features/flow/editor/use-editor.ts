@@ -4,7 +4,7 @@ import { isEmpty } from "lodash-es"
 import { flowApi } from "@/api/flow"
 import { Time } from "@/util/duration"
 import { delayedPromise } from "@/util/promise"
-import { FlowGraphRef } from "./graph"
+import { GraphRef } from "./graph"
 import { useToast } from "@/components/toast"
 import { DEFAULT_FLOW_NAME } from "../config"
 
@@ -15,7 +15,7 @@ export default function useEditor() {
 
   const flowId = useParams().flowId as string
   const toast = useToast()
-  const graphRef = useRef<FlowGraphRef>(null)
+  const graphRef = useRef<GraphRef>(null)
   const queryClient = useQueryClient()
   const flowQuery = useQuery(
     ["flow", flowId],

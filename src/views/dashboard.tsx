@@ -8,7 +8,7 @@ import useDashboard from "@/features/dashboard/use-dashboard"
 export default function Dashboard() {
   const dragX = useMotionValue(0)
   const sidebarRef = useRef<HTMLDivElement>(null)
-  const { isCreatingGraph, createGraph } = useDashboard()
+  const { isCreatingFlow, createFlow } = useDashboard()
 
   useMotionValueEvent(dragX, "change", (x) => {
     if (sidebarRef.current) sidebarRef.current.style.width = `${x + 320}px`
@@ -45,7 +45,7 @@ export default function Dashboard() {
         />
         <div className="flex-1 p-unit-lg">
           <section className="flex mb-unit-lg justify-between">
-            <Button color="primary" startContent={<Plus />} onClick={createGraph}>
+            <Button color="primary" startContent={<Plus />} onClick={createFlow}>
               新建流程
             </Button>
             <div className="flex gap-unit-sm">
@@ -59,7 +59,7 @@ export default function Dashboard() {
           <FlowList />
         </div>
       </main>
-      <LoadingModal title="创建中" loading={isCreatingGraph} />
+      <LoadingModal title="创建中" loading={isCreatingFlow} />
     </div>
   )
 }

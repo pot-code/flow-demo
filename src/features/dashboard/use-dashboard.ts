@@ -11,7 +11,7 @@ export default function useDashboard() {
   const toast = useToast()
   const navigate = useNavigate()
   const { invalidateCache } = useFlowListQuery(false)
-  const createGraphMutation = useMutation(delayedPromise(1 * Time.Second, flowApi.create), {
+  const createFlowMutation = useMutation(delayedPromise(1 * Time.Second, flowApi.create), {
     onSuccess: ({ data: { data } }) => {
       invalidateCache()
       if (data) navigate(`/flow/${data.id}`)
@@ -23,14 +23,14 @@ export default function useDashboard() {
     },
   })
 
-  const createGraph = useCallback(() => {
-    createGraphMutation.mutate({
+  const createFlow = useCallback(() => {
+    createFlowMutation.mutate({
       name: DEFAULT_FLOW_NAME,
     })
-  }, [createGraphMutation])
+  }, [createFlowMutation])
 
   return {
-    isCreatingGraph: createGraphMutation.isLoading,
-    createGraph,
+    isCreatingFlow: createFlowMutation.isLoading,
+    createFlow,
   }
 }

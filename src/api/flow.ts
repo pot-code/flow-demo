@@ -3,19 +3,19 @@ import { HttpResponse } from "@/core/http/types"
 
 export const flowApi = {
   list: () => http.get<HttpResponse<FlowListData[]>>("/flow"),
-  create: (data: CreateFlowGraphData) => http.post<HttpResponse<UpdateFlowGraphData>>("/flow", data),
+  create: (data: CreateFlowData) => http.post<HttpResponse<UpdateFlowData>>("/flow", data),
   delete: (id: string) => http.delete(`/flow/${id}`),
-  update: (data: UpdateFlowGraphData) => http.put(`/flow/${data.id}`, data),
+  update: (data: UpdateFlowData) => http.put(`/flow/${data.id}`, data),
   getByID: (flowId: string) => http.get<HttpResponse<FlowGraphData>>(`/flow/${flowId}`),
 }
 
-export interface CreateFlowGraphData {
+export interface CreateFlowData {
   name: string
   nodes?: string
   edges?: string
 }
 
-export interface UpdateFlowGraphData {
+export interface UpdateFlowData {
   id: string
   name: string
   nodes?: string
