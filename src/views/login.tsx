@@ -11,11 +11,11 @@ import { delayedPromise } from "@/util/promise"
 import { HttpError } from "@/core/http/error"
 
 export default function Login() {
+  const timerRef = useRef<number>()
   const [showError, setShowError] = useState<boolean>(false)
   const [errorMessage, setErrorMessage] = useState<string>("")
 
   const navigate = useNavigate()
-  const timerRef = useRef<number>()
   const setIsAuthenticated = useAuthStore((state) => state.setIsAuthenticated)
   const {
     register,
@@ -30,6 +30,9 @@ export default function Login() {
     onError: (err: HttpError) => {
       setShowError(true)
       setErrorMessage(err.message)
+    },
+    onMutate: () => {
+      setShowError(false)
     },
   })
 
@@ -84,7 +87,7 @@ export default function Login() {
               </div>
               <motion.div
                 style={{ opacity: 0 }}
-                animate={{ opacity: showError && login.isError ? 1 : 0 }}
+                animate={{ opacity: showError ? 1 : 0 }}
                 className="absolute bottom-0 inset-x-0 m-unit-md"
               >
                 <Toast type="error" title={errorMessage} onClose={() => {}} />
