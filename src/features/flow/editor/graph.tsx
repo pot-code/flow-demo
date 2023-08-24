@@ -76,9 +76,9 @@ export default forwardRef<GraphRef, GraphProps>(({ isRefreshing, initialNodes = 
               <DropdownItem key="result">Result</DropdownItem>
             </DropdownMenu>
           </Dropdown>
+          {isRefreshing && <Spinner size="sm" color="success" />}
         </div>
       </Panel>
-      <Panel position="top-right">{isRefreshing && <Spinner size="sm" color="success" />}</Panel>
       <Controls />
       <Background variant={BackgroundVariant.Dots} />
     </ReactFlow>
