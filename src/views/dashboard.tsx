@@ -18,7 +18,7 @@ import LoadingModal from "@/components/loading-modal"
 import FlowList from "@/features/dashboard/flow-list"
 import useDashboard from "@/features/dashboard/use-dashboard"
 
-const sidebarWidth = 304
+const sidebarWidth = 302
 
 export default function Dashboard() {
   const dragX = useMotionValue(0)
@@ -55,7 +55,7 @@ export default function Dashboard() {
         </NavbarContent>
       </Navbar>
       <main className="flex h-full relative">
-        <div ref={sidebarRef} className="h-full border-r-1" style={{ width: sidebarWidth }} />
+        <div ref={sidebarRef} className="h-full border-r-1 border-divider" style={{ width: sidebarWidth }} />
         <motion.div
           style={{ left: sidebarWidth - 2, x: dragX }}
           className={`

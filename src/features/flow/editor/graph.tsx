@@ -76,7 +76,7 @@ export default forwardRef<GraphRef, GraphProps>(({ isRefreshing, initialNodes = 
               <DropdownItem key="result">Result</DropdownItem>
             </DropdownMenu>
           </Dropdown>
-          {isRefreshing && <Spinner size="sm" color="success" />}
+          {isRefreshing && <Spinner size="sm" color="default" />}
         </div>
       </Panel>
       <Controls />
