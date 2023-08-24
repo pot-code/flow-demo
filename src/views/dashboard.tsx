@@ -36,7 +36,6 @@ export default function Dashboard() {
           style={{ left: sidebarWidth, x: dragX }}
           className={`
           absolute h-full w-[1px] bg-divider box-content bg-clip-content
-          duration-75 transition-colors
           hover:bg-primary-200 hover:cursor-col-resize
           active:bg-primary-400 active:cursor-col-resize
           `}
@@ -44,8 +43,8 @@ export default function Dashboard() {
           dragElastic={0}
           dragMomentum={false}
           dragConstraints={{ left: 0, right: 100 }}
-          whileHover={{ scale: 5 }}
-          whileDrag={{ scale: 5 }}
+          whileHover={{ scaleX: 5 }}
+          whileDrag={{ scaleX: 5 }}
         />
         <div className="flex-1 p-unit-lg">
           <section className="flex mb-unit-lg justify-between">
