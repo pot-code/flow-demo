@@ -1,4 +1,5 @@
 import { Card, CardFooter, CardHeader, Skeleton } from "@nextui-org/react"
+import { isEmpty } from "lodash-es"
 import LoadingModal from "@/components/loading-modal"
 import FlowCard from "./flow-card"
 import useFlowList from "./use-flow-list"
@@ -37,14 +38,14 @@ export default function FlowList() {
     return <LoadingState />
   }
 
-  if (!data) {
+  if (isEmpty(data)) {
     return <EmptyData />
   }
 
   return (
     <>
       <GridLayout>
-        {data.map((item) => (
+        {data!.map((item) => (
           <FlowCard
             key={item.id}
             id={item.id}
