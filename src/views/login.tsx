@@ -1,13 +1,18 @@
-import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/react"
+import { Button, Card, CardBody, CardFooter, Input } from "@nextui-org/react"
 import { useMutation } from "@tanstack/react-query"
+import { motion } from "framer-motion"
 import { useForm } from "react-hook-form"
 import { LoginData, authApi } from "@/api/auth"
 import bg from "@/assets/image/login_bg.webp"
+import Toast from "@/components/toast/toast"
+import { HttpError } from "@/core/http/error"
+import useAuthStore from "@/features/auth/use-auth-store"
 import { Time } from "@/util/duration"
 import { delayedPromise } from "@/util/promise"
 
 export default function Login() {
   const navigate = useNavigate()
+  const setIsAuthenticated = useAuthStore((state) => state.setIsAuthenticated)
   const {
     register,
     handleSubmit,
@@ -15,9 +20,11 @@ export default function Login() {
   } = useForm<LoginData>()
   const login = useMutation(delayedPromise(1 * Time.Second, authApi.login), {
     onSuccess: () => {
+      setIsAuthenticated(true)
       navigate("/dashboard")
     },
   })
+  const error = login.error ? (login.error as HttpError).message : ""
 
   const onSubmit = useCallback(
     (data: LoginData) => {
@@ -27,18 +34,20 @@ export default function Login() {
   )
 
   return (
-    <main className="h-screen relative" style={{ backgroundImage: `url(${bg})`, backgroundSize: "cover" }}>
-      <Modal isOpen hideCloseButton size="sm" backdrop="blur">
-        <ModalContent>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <ModalHeader>登录</ModalHeader>
-            <ModalBody>
+    <div className="h-screen grid grid-cols-12 grid-rows-6 bg-gradient-to-tr from-blue-800 to-purple-50">
+      <div
+        className="relative col-start-3 row-start-2 col-span-8 row-span-4 rounded-2xl"
+        style={{ backgroundImage: `url(${bg})`, backgroundSize: "cover" }}
+      >
+        <Card className="absolute w-[360px] inset-y-0 right-0">
+          <CardBody className="justify-center">
+            <form onSubmit={handleSubmit(onSubmit)}>
               <div className="space-y-unit-sm">
                 <Input
                   label="用户名"
                   labelPlacement="outside"
                   variant="bordered"
-                  placeholder="Enter your Username/Mobile"
+                  placeholder="Enter your Username"
                   validationState={errors.username ? "invalid" : "valid"}
                   {...register("username", {
                     required: true,
@@ -57,18 +66,25 @@ export default function Login() {
                   })}
                 />
               </div>
-            </ModalBody>
-            <ModalFooter>
-              <Button isLoading={login.isLoading} color="primary" onClick={handleSubmit(onSubmit)}>
-                登录
-              </Button>
-              <Button color="primary" variant="light">
-                注册
-              </Button>
-            </ModalFooter>
-          </form>
-        </ModalContent>
-      </Modal>
-    </main>
+              <motion.div
+                style={{ opacity: 0 }}
+                animate={{ opacity: login.isError ? 1 : 0 }}
+                className="absolute bottom-0 inset-x-0 m-unit-md"
+              >
+                <Toast type="error" title={error} onClose={() => {}} />
+              </motion.div>
+            </form>
+          </CardBody>
+          <CardFooter className="gap-unit-sm justify-end">
+            <Button isLoading={login.isLoading} color="primary" onClick={handleSubmit(onSubmit)}>
+              登录
+            </Button>
+            <Button color="primary" variant="light">
+              注册
+            </Button>
+          </CardFooter>
+        </Card>
+      </div>
+    </div>
   )
 }
