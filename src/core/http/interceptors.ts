@@ -20,10 +20,15 @@ export function handleRejection(error: any) {
 
   let httpError
   if (error.response) {
-    const { msg, code } = error.response.data as HttpResponse<null>
-    httpError = new HttpError(msg || "", code)
+    const response = error.response as AxiosResponse
+    if (response.data) {
+      const { msg, code } = response.data as HttpResponse<null>
+      httpError = new HttpError(msg || "", code)
+    } else {
+      httpError = new HttpError(response.statusText, response.status)
+    }
   } else if (error.request) {
-    httpError = new HttpError("请求超时" || "", -1)
+    httpError = new HttpError("未能连接到服务器" || "", -1)
   } else if (error instanceof Error) {
     httpError = HttpError.fromError(error)
   } else {

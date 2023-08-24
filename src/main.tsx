@@ -16,7 +16,7 @@ const queryClient = new QueryClient({
     queries: {
       refetchOnWindowFocus: false,
       retry(failureCount, error) {
-        if (error instanceof HttpError && (error.code === 401 || error.code === 403)) {
+        if (error instanceof HttpError && [401, 403, 500].indexOf(error.code) > -1) {
           return false
         }
         return failureCount < 3
