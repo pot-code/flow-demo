@@ -53,7 +53,7 @@ export default function Login() {
   }, [showError])
 
   return (
-    <div className="h-screen grid grid-cols-12 grid-rows-6 bg-gradient-to-tr from-blue-800 to-purple-50">
+    <div className="h-screen grid grid-cols-12 grid-rows-6 bg-gradient-to-tr from-blue-800 to-purple-300">
       <div
         className="relative col-start-3 row-start-2 col-span-8 row-span-4 rounded-2xl"
         style={{ backgroundImage: `url(${bg})`, backgroundSize: "cover" }}
