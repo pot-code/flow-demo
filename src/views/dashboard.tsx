@@ -55,20 +55,18 @@ export default function Dashboard() {
         </NavbarContent>
       </Navbar>
       <main className="flex h-full relative">
-        <div ref={sidebarRef} className="h-full" style={{ width: sidebarWidth }} />
+        <div ref={sidebarRef} className="h-full border-r-1" style={{ width: sidebarWidth }} />
         <motion.div
-          style={{ left: sidebarWidth, x: dragX }}
+          style={{ left: sidebarWidth - 2, x: dragX }}
           className={`
-          absolute h-full w-[1px] bg-divider box-content bg-clip-content
-          hover:bg-primary-200 hover:cursor-col-resize
-          active:bg-primary-400 active:cursor-col-resize
+          absolute h-full p-[2px] box-content transition-colors duration-0
+          hover:bg-primary-200 hover:cursor-col-resize hover:delay-300
+          active:bg-primary-400 active:cursor-col-resize active:delay-0
           `}
           drag="x"
           dragElastic={0}
           dragMomentum={false}
           dragConstraints={{ left: 0, right: 100 }}
-          whileHover={{ scaleX: 5 }}
-          whileDrag={{ scaleX: 5 }}
         />
         <div className="flex-1 p-unit-lg">
           <section className="flex mb-unit-lg justify-between">
