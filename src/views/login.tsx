@@ -5,13 +5,17 @@ import { useForm } from "react-hook-form"
 import { LoginData, authApi } from "@/api/auth"
 import bg from "@/assets/image/login_bg.webp"
 import Toast from "@/components/toast/toast"
-import { HttpError } from "@/core/http/error"
 import useAuthStore from "@/features/auth/use-auth-store"
 import { Time } from "@/util/duration"
 import { delayedPromise } from "@/util/promise"
+import { HttpError } from "@/core/http/error"
 
 export default function Login() {
+  const [showError, setShowError] = useState<boolean>(false)
+  const [errorMessage, setErrorMessage] = useState<string>("")
+
   const navigate = useNavigate()
+  const timerRef = useRef<number>()
   const setIsAuthenticated = useAuthStore((state) => state.setIsAuthenticated)
   const {
     register,
@@ -23,8 +27,11 @@ export default function Login() {
       setIsAuthenticated(true)
       navigate("/dashboard")
     },
+    onError: (err: HttpError) => {
+      setShowError(true)
+      setErrorMessage(err.message)
+    },
   })
-  const error = login.error ? (login.error as HttpError).message : ""
 
   const onSubmit = useCallback(
     (data: LoginData) => {
@@ -32,6 +39,15 @@ export default function Login() {
     },
     [login],
   )
+
+  useEffect(() => {
+    clearTimeout(timerRef.current)
+    if (showError) {
+      timerRef.current = window.setTimeout(() => {
+        setShowError(false)
+      }, 3 * Time.Second)
+    }
+  }, [showError])
 
   return (
     <div className="h-screen grid grid-cols-12 grid-rows-6 bg-gradient-to-tr from-blue-800 to-purple-50">
@@ -68,10 +84,10 @@ export default function Login() {
               </div>
               <motion.div
                 style={{ opacity: 0 }}
-                animate={{ opacity: login.isError ? 1 : 0 }}
+                animate={{ opacity: showError && login.isError ? 1 : 0 }}
                 className="absolute bottom-0 inset-x-0 m-unit-md"
               >
-                <Toast type="error" title={error} onClose={() => {}} />
+                <Toast type="error" title={errorMessage} onClose={() => {}} />
               </motion.div>
             </form>
           </CardBody>
