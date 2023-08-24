@@ -1,4 +1,17 @@
-import { Button, Input, Navbar, NavbarBrand, NavbarContent, Tab, Tabs, User } from "@nextui-org/react"
+import {
+  Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Input,
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  Tab,
+  Tabs,
+  User,
+} from "@nextui-org/react"
 import { GridFour, List, MagnifyingGlass, Plus } from "@phosphor-icons/react"
 import { motion, useMotionValue, useMotionValueEvent } from "framer-motion"
 import LoadingModal from "@/components/loading-modal"
@@ -10,7 +23,7 @@ const sidebarWidth = 304
 export default function Dashboard() {
   const dragX = useMotionValue(0)
   const sidebarRef = useRef<HTMLDivElement>(null)
-  const { isCreatingFlow, createFlow } = useDashboard()
+  const { isCreatingFlow, isLoggingOut, createFlow, onLogout } = useDashboard()
 
   useMotionValueEvent(dragX, "change", (x) => {
     if (sidebarRef.current) sidebarRef.current.style.width = `${x + sidebarWidth}px`
@@ -21,13 +34,24 @@ export default function Dashboard() {
       <Navbar isBordered>
         <NavbarBrand>流程设计器</NavbarBrand>
         <NavbarContent justify="end">
-          <User
-            name="pot code"
-            description="Frontend Dev"
-            avatarProps={{
-              src: "https://avatars.githubusercontent.com/u/17687881?v=4",
-            }}
-          />
+          <Dropdown>
+            <DropdownTrigger>
+              <User
+                className="cursor-pointer"
+                name="pot code"
+                description="Frontend Dev"
+                avatarProps={{
+                  src: "https://avatars.githubusercontent.com/u/17687881?v=4",
+                }}
+              />
+            </DropdownTrigger>
+            <DropdownMenu variant="flat">
+              <DropdownItem key="settings">设置</DropdownItem>
+              <DropdownItem key="logout" className="text-danger" color="danger" onClick={onLogout}>
+                注销
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
         </NavbarContent>
       </Navbar>
       <main className="flex h-full relative">
@@ -63,6 +87,7 @@ export default function Dashboard() {
         </div>
       </main>
       <LoadingModal title="创建中" loading={isCreatingFlow} />
+      <LoadingModal title="注销中" loading={isLoggingOut} />
     </div>
   )
 }
