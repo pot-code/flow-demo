@@ -11,3 +11,11 @@
 - Playwright
 - [why-did-you-render](https://github.com/welldone-software/why-did-you-render)
 - [msw(Mock Service Worker)](https://mswjs.io/) API mocking
+
+# TODO
+
+- [ ] User register
+- [ ] User profile
+- [ ] Sidebar design
+- [ ] List flow in grid view
+- [ ] Search flow
