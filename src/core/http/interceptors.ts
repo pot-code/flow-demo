@@ -28,7 +28,7 @@ export function handleRejection(error: any) {
       httpError = new HttpError(response.statusText, response.status)
     }
   } else if (error.request) {
-    httpError = new HttpError("未能连接到服务器" || "", -1)
+    httpError = new HttpError("连接远程服务器失败" || "", -1)
   } else if (error instanceof Error) {
     httpError = HttpError.fromError(error)
   } else {
