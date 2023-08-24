@@ -7,11 +7,11 @@ export interface RouteGuardProps {
   children: React.ReactElement
 }
 
-export default function RouteGuard({ children }: RouteGuardProps): React.ReactElement {
+export default function RouteGuard({ children }: RouteGuardProps) {
   const { isLoading, isError, error } = useQuery(["is-authenticated"], () => authApi.isAuthenticated())
 
   if (isLoading) {
-    return <div />
+    return null
   }
 
   if (isError && (error as HttpError).code === 401) {
