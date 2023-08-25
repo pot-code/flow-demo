@@ -1,12 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios"
 import { captureBusinessError, handleRejection } from "./interceptors"
 
-const instance = axios.create({
-  baseURL: import.meta.env.VITE_API_PREFIX,
-})
-
-instance.interceptors.response.use(captureBusinessError, handleRejection)
-
 class HttpClient {
   constructor(private readonly client: AxiosInstance) {}
 
@@ -37,8 +31,13 @@ class HttpClient {
   }
 }
 
-export default new HttpClient(instance)
+export const axiosInstance = axios.create({
+  baseURL: import.meta.env.VITE_API_PREFIX,
+})
 
+axiosInstance.interceptors.response.use(captureBusinessError, handleRejection)
+
+export default new HttpClient(axiosInstance)
 export type { HttpResponse } from "./types"
 export { HttpError } from "./error"
 export { HttpErrorStream } from "./event"
