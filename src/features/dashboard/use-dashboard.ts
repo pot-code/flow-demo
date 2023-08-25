@@ -12,7 +12,7 @@ export default function useDashboard() {
   const navigate = useNavigate()
   const { logout, isLoading: isLoggingOut } = useLogout()
   const createFlowMutation = useMutation(delayedPromise(1 * Time.Second, flowApi.create), {
-    onSuccess: ({ data: { data } }) => {
+    onSuccess: ({ data }) => {
       if (data) navigate(`/flow/${data.id}`)
     },
     onError: (err: HttpError) => {

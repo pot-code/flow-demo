@@ -20,7 +20,7 @@ export default function useEditor() {
   const queryClient = useQueryClient()
   const flowQuery = useQuery(
     ["flow", flowId],
-    () => delayedPromise(0.5 * Time.Second, flowApi.getByID)(flowId).then((res) => res.data.data),
+    () => delayedPromise(0.5 * Time.Second, flowApi.getByID)(flowId).then((res) => res.data),
     {
       enabled: Boolean(flowId),
     },

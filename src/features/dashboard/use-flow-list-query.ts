@@ -10,13 +10,9 @@ const cacheKey = "flow-list"
 export default function useFlowListQuery(enabled = true) {
   const toast = useToast()
   const queryClient = useQueryClient()
-  const query = useQuery(
-    [cacheKey],
-    () => delayedPromise(0.3 * Time.Second, flowApi.list)().then((res) => res.data.data),
-    {
-      enabled,
-    },
-  )
+  const query = useQuery([cacheKey], () => delayedPromise(0.3 * Time.Second, flowApi.list)().then((res) => res.data), {
+    enabled,
+  })
 
   const invalidateCache = useCallback(() => {
     queryClient.invalidateQueries([cacheKey])
