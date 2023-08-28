@@ -12,7 +12,7 @@ export interface ToastProps {
 
 export default memo<ToastProps>(({ title, description, type = "info", duration = 3000, onClose }) => {
   const animationRef = useRef(new Animation())
-  const domRef = useRef<HTMLDivElement>(null)
+  const domRef = useRef<HTMLDivElement>(null!)
 
   const onMouseEnter = useCallback(() => {
     if (animationRef.current) animationRef.current.pause()
@@ -23,14 +23,12 @@ export default memo<ToastProps>(({ title, description, type = "info", duration =
   }, [])
 
   useEffect(() => {
-    if (domRef.current) {
-      const animation = domRef.current.animate(null, { duration })
-      animationRef.current = animation
-      animation.onfinish = onClose
-      animation.play()
-    }
+    const animation = domRef.current.animate(null, { duration })
+    animationRef.current = animation
+    animation.onfinish = onClose
+    animation.play()
     return () => {
-      if (animationRef.current) animationRef.current.cancel()
+      animationRef.current.cancel()
     }
     // add deps will cause a lot of troubles
     // eslint-disable-next-line react-hooks/exhaustive-deps

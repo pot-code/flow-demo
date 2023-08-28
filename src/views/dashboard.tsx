@@ -22,11 +22,11 @@ const sidebarWidth = 302
 
 export default function Dashboard() {
   const dragX = useMotionValue(0)
-  const sidebarRef = useRef<HTMLDivElement>(null)
+  const sidebarRef = useRef<HTMLDivElement>(null!)
   const { isCreatingFlow, isLoggingOut, createFlow, onLogout } = useDashboard()
 
   useMotionValueEvent(dragX, "change", (x) => {
-    if (sidebarRef.current) sidebarRef.current.style.width = `${x + sidebarWidth}px`
+    sidebarRef.current.style.width = `${x + sidebarWidth}px`
   })
 
   return (

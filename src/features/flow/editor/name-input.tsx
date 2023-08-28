@@ -5,7 +5,7 @@ export interface NameInputProps {
 }
 
 export default memo<NameInputProps>(({ value, onChange }) => {
-  const domRef = useRef<HTMLDivElement>(null)
+  const domRef = useRef<HTMLDivElement>(null!)
 
   const onKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -21,7 +21,7 @@ export default memo<NameInputProps>(({ value, onChange }) => {
   )
 
   useEffect(() => {
-    if (domRef.current) domRef.current.textContent = value
+    domRef.current.textContent = value
   }, [value])
 
   // why nest div in div?
