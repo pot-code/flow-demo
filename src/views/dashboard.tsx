@@ -61,7 +61,7 @@ export default function Dashboard() {
           className={`
           absolute h-full p-[2px] box-content transition-colors duration-0
           hover:bg-primary-200 hover:cursor-col-resize hover:delay-300
-          active:bg-primary-400 active:cursor-col-resize active:delay-0
+          active:bg-primary-400 active:delay-0
           `}
           drag="x"
           dragElastic={0}
