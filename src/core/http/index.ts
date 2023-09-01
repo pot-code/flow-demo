@@ -8,11 +8,11 @@ class HttpClient {
     return this.client.get<T>(url, config).then((res) => res.data)
   }
 
-  async post<T = any>(url: string, data: any, config?: AxiosRequestConfig<any>) {
+  async post<T = any>(url: string, data?: any, config?: AxiosRequestConfig<any>) {
     return this.client.post<T>(url, data, config).then((res) => res.data)
   }
 
-  async put<T = any>(url: string, data: any, config?: AxiosRequestConfig<any>) {
+  async put<T = any>(url: string, data?: any, config?: AxiosRequestConfig<any>) {
     return this.client.put<T>(url, data, config).then((res) => res.data)
   }
 
