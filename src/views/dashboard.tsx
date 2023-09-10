@@ -13,21 +13,17 @@ import {
   User,
 } from "@nextui-org/react"
 import { GridFour, List, MagnifyingGlass, Plus } from "@phosphor-icons/react"
-import { motion, useMotionValue, useMotionValueEvent } from "framer-motion"
+import { motion } from "framer-motion"
 import LoadingModal from "@/components/loading-modal"
 import FlowList from "@/features/dashboard/flow-list"
 import useDashboard from "@/features/dashboard/use-dashboard"
+import useWidthResize from "@/features/dashboard/use-width-resize"
 
-const sidebarWidth = 302
+const defaultSidebarWidth = 302
 
 export default function Dashboard() {
-  const dragX = useMotionValue(0)
-  const sidebarRef = useRef<HTMLDivElement>(null!)
+  const { dragX, target } = useWidthResize<HTMLDivElement>(defaultSidebarWidth)
   const { isCreatingFlow, isLoggingOut, createFlow, onLogout } = useDashboard()
-
-  useMotionValueEvent(dragX, "change", (x) => {
-    sidebarRef.current.style.width = `${x + sidebarWidth}px`
-  })
 
   return (
     <div className="flex flex-col h-screen">
@@ -55,9 +51,9 @@ export default function Dashboard() {
         </NavbarContent>
       </Navbar>
       <main className="flex h-full relative">
-        <div ref={sidebarRef} className="h-full border-r-1 border-divider" style={{ width: sidebarWidth }} />
+        <div ref={target} className="h-full border-r-1 border-divider" style={{ width: defaultSidebarWidth }} />
         <motion.div
-          style={{ left: sidebarWidth - 2, x: dragX }}
+          style={{ left: defaultSidebarWidth - 2, x: dragX }}
           className={`
           absolute h-full p-[2px] box-content transition-colors duration-0
           hover:bg-primary-200 hover:cursor-col-resize hover:delay-300
