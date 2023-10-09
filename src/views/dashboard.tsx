@@ -72,8 +72,8 @@ export default function Dashboard() {
             <div className="flex gap-unit-sm">
               <Input variant="bordered" startContent={<MagnifyingGlass />} />
               <Tabs color="default" variant="light">
+                <Tab defaultChecked key="grid" title={<GridFour />} />
                 <Tab key="list" title={<List />} />
-                <Tab key="grid" title={<GridFour />} />
               </Tabs>
             </div>
           </section>

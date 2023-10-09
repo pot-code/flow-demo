@@ -25,7 +25,7 @@ export default function Login() {
   const login = useMutation(delayedPromise(1 * Time.Second, authApi.login), {
     onSuccess: () => {
       setIsAuthenticated(true)
-      navigate("/dashboard")
+      navigate("/")
     },
     onError: (err: HttpError) => {
       setShowError(true)

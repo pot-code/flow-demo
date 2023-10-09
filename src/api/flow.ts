@@ -5,7 +5,7 @@ export const flowApi = {
   list: () => http.get<HttpResponse<FlowListData[]>>("/flow"),
   create: (data: CreateFlowData) => http.post<HttpResponse<UpdateFlowData>>("/flow", data),
   delete: (id: string) => http.delete(`/flow/${id}`),
-  update: (data: UpdateFlowData) => http.put(`/flow/${data.id}`, data),
+  update: (data: UpdateFlowData) => http.put(`/flow`, data),
   getByID: (flowId: string) => http.get<HttpResponse<FlowGraphData>>(`/flow/${flowId}`),
 }
 

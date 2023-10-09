@@ -9,16 +9,11 @@ import Home from "@/views/home"
 export const routes: RouteObject[] = [
   {
     path: "/",
-    index: true,
-    element: React.createElement(Home),
+    element: React.createElement(RouteGuard, null, React.createElement(Dashboard)),
   },
   {
     path: "/flow/:flowId",
     element: React.createElement(RouteGuard, null, React.createElement(FlowEditor)),
-  },
-  {
-    path: "/dashboard",
-    element: React.createElement(RouteGuard, null, React.createElement(Dashboard)),
   },
   {
     path: "/login",
