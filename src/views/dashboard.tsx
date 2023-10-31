@@ -62,6 +62,12 @@ export default function Dashboard() {
           drag="x"
           dragElastic={0}
           dragMomentum={false}
+          onDragStart={() => {
+            document.body.style.cursor = "col-resize"
+          }}
+          onDragEnd={() => {
+            document.body.style.cursor = ""
+          }}
           dragConstraints={{ left: 0, right: 100 }}
         />
         <div className="flex-1 p-unit-lg">
